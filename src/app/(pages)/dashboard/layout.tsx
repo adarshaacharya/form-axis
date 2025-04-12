@@ -1,0 +1,18 @@
+import { DashboardSideBar } from "@/components/dashboard/side-bar";
+import { DashboardTopNav } from "@/components/dashboard/top-nav";
+import { ReactNode } from "react";
+
+export default async function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex h-screen overflow-hidden w-full">
+      <DashboardSideBar />
+      <main className="flex-1 overflow-y-auto">
+        <DashboardTopNav>{children}</DashboardTopNav>
+      </main>
+    </div>
+  );
+}

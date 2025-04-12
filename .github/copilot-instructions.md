@@ -12,6 +12,17 @@ AI-native Forms that are purely conversational. You set up the form or survey by
 - Clerk as auth client
 - Vercel as deployment
 
+## Tasks
+
+- Landing page
+- User authentication with clerk
+- Create form using prompt and topic
+- Allow user to edit the question and answers type before publish
+- Publish form
+- Allow user to share the form link
+- Allow user to fillup form without login
+- Allow user to see the form response or summary
+
 # Next.js Conventions
 
 - Use `app` directory for routing

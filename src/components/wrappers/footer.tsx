@@ -10,7 +10,7 @@ export function Footer() {
           href="https://adarsha.dev"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 hover:underline"
+          className="text-orange-600 hover:underline"
         >
           Adarsha Acharya
         </a>{" "}

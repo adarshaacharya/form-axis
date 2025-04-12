@@ -1,17 +1,10 @@
 "use client";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import { Dialog } from "@radix-ui/react-dialog";
-import { motion } from "framer-motion";
-import { Github, Menu, LucideRocket, Twitter, Youtube } from "lucide-react";
+import { motion } from "motion/react";
+import { Menu, LucideRocket } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import { ModeToggle } from "../mode-toggle";
