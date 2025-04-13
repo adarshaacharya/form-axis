@@ -13,19 +13,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
-interface PromptModalProps {
+interface AddPromptProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (prompt: string) => void;
   isLoading?: boolean;
 }
 
-export function PromptModal({
+export function AddPromptModal({
   open,
   onOpenChange,
   onSubmit,
   isLoading = false,
-}: PromptModalProps) {
+}: AddPromptProps) {
   const [prompt, setPrompt] = useState("");
 
   const handleSubmit = () => {

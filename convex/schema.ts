@@ -1,7 +1,7 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
-const fieldTypeSchema = v.union(
+export const fieldTypeSchema = v.union(
   v.literal("shortText"),
   v.literal("longText"),
   v.literal("number"),
@@ -27,6 +27,7 @@ export default defineSchema({
     updatedAt: v.string(),
     userId: v.string(),
     isPublished: v.boolean(),
+    originalPrompt: v.string(),
     settings: v.object({
       allowAnonymous: v.boolean(),
       collectEmail: v.boolean(),

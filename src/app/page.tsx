@@ -1,7 +1,6 @@
-import { FAQ } from "@/components/home/faq";
-import { HeroSection } from "@/components/home/hero-section";
+import { FAQ } from "@/components/marketing/faq";
+import { HeroSection } from "@/components/marketing/hero-section";
 import { PageWrapper } from "@/components/wrappers/page-wrapper";
-import Image from "next/image";
 
 export default function Home() {
   return (

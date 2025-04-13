@@ -19,7 +19,7 @@ import {
   Plus,
 } from "lucide-react";
 import Link from "next/link";
-import CreateFormButton from "@/components/factory/create-form-button";
+import CreateFormButton from "@/components/prompt-dialog/create-form-button";
 
 export default async function Dashboard() {
   return (

@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { fieldTypeSchema } from "./schema";
 
 export const listForms = query({
   args: {},
@@ -35,9 +36,8 @@ export const createForm = mutation({
       v.array(
         v.object({
           content: v.string(),
-          type: v.string(),
+          type: fieldTypeSchema,
           required: v.boolean(),
-          options: v.optional(v.array(v.string())),
         })
       )
     ),

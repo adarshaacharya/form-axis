@@ -25,6 +25,11 @@ const navItems: NavItem[] = [
     icon: HomeIcon,
   },
   {
+    label: "Forms",
+    href: "/dashboard/forms",
+    icon: Folder,
+  },
+  {
     label: "Settings",
     href: "/dashboard/settings",
     icon: Settings,

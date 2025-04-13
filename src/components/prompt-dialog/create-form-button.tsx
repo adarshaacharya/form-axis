@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { PromptModal } from "./prompt-modal";
+import { AddPromptModal } from "./add-prompt-modal";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useMutation } from "convex/react";
@@ -71,7 +71,7 @@ export default function CreateFormButton() {
         Create Form
       </Button>
 
-      <PromptModal
+      <AddPromptModal
         open={showPromptModal}
         onOpenChange={setShowPromptModal}
         onSubmit={handleSubmitPrompt}
