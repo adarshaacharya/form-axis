@@ -16,17 +16,22 @@ import {
   Star,
   TrendingUp,
   Users,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
+import CreateFormButton from "@/components/factory/create-form-button";
 
 export default async function Dashboard() {
   return (
     <div className="flex flex-col gap-6 p-6">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground mt-2">
-          Manage your conversational forms and responses.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground mt-2">
+            Manage your conversational forms and responses.
+          </p>
+        </div>
+        <CreateFormButton />
       </div>
 
       {/* Quick Stats Row */}
