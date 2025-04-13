@@ -33,7 +33,7 @@ export default async function Dashboard() {
         </div>
         <CreateFormButton />
       </div>
-
+ 
       {/* Quick Stats Row */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
@@ -180,7 +180,7 @@ export default async function Dashboard() {
               variant="outline"
               className="w-full justify-start gap-2"
             >
-              <Link href="/dashboard/forms/new">
+              <Link href="/dashboard/forms">
                 <FileText className="h-4 w-4" />
                 Create Form
               </Link>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function FormsPage() {
   return (
-    <main className="container mx-auto p-6">
+    <main className="p-6">
       <FormsTable />
     </main>
   );

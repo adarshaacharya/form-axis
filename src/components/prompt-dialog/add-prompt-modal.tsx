@@ -34,8 +34,26 @@ export function AddPromptModal({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={isLoading ? () => {} : onOpenChange}>
       <DialogContent className="sm:max-w-[625px]">
+        {isLoading && (
+          <div className="fixed inset-0 bg-background/50 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div className="bg-background rounded-lg shadow-lg p-6 max-w-md mx-auto">
+              <div className="text-center space-y-4">
+                <Loader2 className="h-8 w-8 text-primary animate-spin mx-auto" />
+                <div>
+                  <h3 className="font-medium text-lg">
+                    Generating questions...
+                  </h3>
+                  <p className="text-muted-foreground text-sm">
+                    This may take a few seconds
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <DialogHeader>
           <DialogTitle>Create a new form</DialogTitle>
           <DialogDescription>
@@ -50,6 +68,7 @@ export function AddPromptModal({
             className="min-h-[150px]"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
+            disabled={isLoading}
           />
         </div>
 

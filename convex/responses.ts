@@ -25,7 +25,7 @@ export const submitResponse = mutation({
     answers: v.array(
       v.object({
         fieldId: v.id("formFields"),
-        value: v.union(v.string(), v.number(), v.array(v.string()), v.null()),
+        value: v.union(v.string(), v.number(), v.null()),
       })
     ),
     email: v.optional(v.string()),

@@ -46,20 +46,20 @@ export function FormsTableToolbar<TData>({
           className="h-8 w-[150px] lg:w-[250px]"
         />
 
-        {table.getColumn("status") && (
+        {table.getColumn("isPublished") && (
           <DataTableFacetedFilter
-            column={table.getColumn("status")}
+            column={table.getColumn("isPublished")}
             title="Status"
             options={statuses}
           />
         )}
-        {table.getColumn("priority") && (
+        {/* {table.getColumn("priority") && (
           <DataTableFacetedFilter
             column={table.getColumn("priority")}
             title="Priority"
             options={priorities}
           />
-        )}
+        )} */}
         {isFiltered && (
           <Button
             variant="ghost"

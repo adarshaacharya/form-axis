@@ -74,6 +74,8 @@ You are assisting with a modern Next.js + Convex form (typescript alternative) a
 - Follow component composition over inheritance
 - Implement proper TypeScript types for all props and functions
 - Reserve function declarations for utilities and helpers
+- If the component is too large, break it down into smaller components by creating a new file for each component 
+- Group similar components together in a folder inside `app/components`
 
 2. Data Layer:
 
@@ -105,6 +107,7 @@ You are assisting with a modern Next.js + Convex form (typescript alternative) a
 - Follow mobile-first responsive design
 - Implement dark mode using next-themes
 - Use shadcn/ui components consistently
+- Use `motion/react` for animations and try to animate consistently
 
 6. AI Integration:
 
@@ -123,6 +126,7 @@ When implementing features:
 5. Handle loading and error states
 6. Follow mobile-first design
 7. Implement proper tests
+8. Use proper TypeScript types for all functions and props and avoid use of `any` type
 
 Remember to:
 
