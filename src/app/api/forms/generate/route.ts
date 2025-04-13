@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateFormQuestions } from "./api";
-import { formPromptSchema } from "@/lib/schemas";
+import { z } from "zod";
+
+const promptSchema = z.object({
+  prompt: z.string().min(1, "Prompt is required"),
+});
 
 // Route handler for form generation
 export async function POST(req: NextRequest) {
@@ -9,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     // Parse and validate the request body
     const body = await req.json();
-    const validationResult = formPromptSchema.safeParse(body);
+    const validationResult = promptSchema.safeParse(body);
 
     if (!validationResult.success) {
       const errors = validationResult.error.flatten();

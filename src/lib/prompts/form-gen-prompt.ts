@@ -21,6 +21,9 @@ export const formGenerationPrompt = `
        - Are mutually exclusive when appropriate
        - Include an "Other" option when appropriate
     5. Ensure questions follow a logical flow:
+       - Ask name of the user first as per the context
+       - Ask for email or phone number if required
+       - Ask for the user's location if relevant
        - Start with simpler, engaging questions
        - Group related questions together
        - Progress from general to specific
