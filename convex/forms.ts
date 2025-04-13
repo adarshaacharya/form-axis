@@ -6,7 +6,10 @@ export const listForms = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Not authenticated");
-    return await ctx.db.query("forms").withIndex("by_user", (q) => q.eq("userId", identity.subject)).collect();
+    return await ctx.db
+      .query("forms")
+      .withIndex("by_user", (q) => q.eq("userId", identity.subject))
+      .collect();
   },
 });
 
@@ -17,25 +20,46 @@ export const getForm = query({
     if (!form) throw new Error("Form not found");
     if (!form.isPublished) {
       const identity = await ctx.auth.getUserIdentity();
-      if (!identity || identity.subject !== form.userId) throw new Error("Not authorized");
+      if (!identity || identity.subject !== form.userId)
+        throw new Error("Not authorized");
     }
     return form;
   },
 });
 
 export const createForm = mutation({
-  args: { title: v.string(), description: v.optional(v.string()) },
+  args: {
+    title: v.string(),
+    description: v.string(),
+    questions: v.optional(
+      v.array(
+        v.object({
+          content: v.string(),
+          type: v.string(),
+          required: v.boolean(),
+          options: v.optional(v.array(v.string())),
+        })
+      )
+    ),
+    originalPrompt: v.string(),
+  },
+  returns: v.string(),
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Not authenticated");
-    return await ctx.db.insert("forms", {
-      ...args,
+
+    const formId = await ctx.db.insert("forms", {
+      title: args.title,
+      description: args.description,
+      originalPrompt: args.originalPrompt,
+      userId: identity.subject,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      userId: identity.subject,
       isPublished: false,
       settings: { allowAnonymous: true, collectEmail: false },
     });
+
+    return formId;
   },
 });
 
@@ -45,12 +69,14 @@ export const updateForm = mutation({
     title: v.optional(v.string()),
     description: v.optional(v.string()),
     isPublished: v.optional(v.boolean()),
-    settings: v.optional(v.object({
-      allowAnonymous: v.boolean(),
-      collectEmail: v.boolean(),
-      maxResponses: v.optional(v.number()),
-      expiresAt: v.optional(v.string()),
-    })),
+    settings: v.optional(
+      v.object({
+        allowAnonymous: v.boolean(),
+        collectEmail: v.boolean(),
+        maxResponses: v.optional(v.number()),
+        expiresAt: v.optional(v.string()),
+      })
+    ),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();

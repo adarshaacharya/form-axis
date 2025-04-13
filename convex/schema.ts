@@ -1,6 +1,15 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+const fieldTypeSchema = v.union(
+  v.literal("shortText"),
+  v.literal("longText"),
+  v.literal("number"),
+  v.literal("email"),
+  v.literal("phone"),
+  v.literal("time")
+);
+
 export default defineSchema({
   users: defineTable({
     createdAt: v.string(),
@@ -31,31 +40,17 @@ export default defineSchema({
   formFields: defineTable({
     formId: v.id("forms"),
     order: v.number(),
-    type: v.union(
-      v.literal("shortText"),
-      v.literal("longText"),
-      v.literal("number"),
-      v.literal("singleChoice"),
-      v.literal("multipleChoice"),
-      v.literal("email"),
-      v.literal("phone"),
-      v.literal("date"),
-      v.literal("time"),
-      v.literal("file")
-    ),
+    type: fieldTypeSchema,
     label: v.string(),
     required: v.boolean(),
     placeholder: v.optional(v.string()),
     description: v.optional(v.string()),
-    options: v.optional(v.array(v.string())),
     validation: v.optional(
       v.object({
         minLength: v.optional(v.number()),
         maxLength: v.optional(v.number()),
-        pattern: v.optional(v.string()),
         min: v.optional(v.number()),
         max: v.optional(v.number()),
-        fileTypes: v.optional(v.array(v.string())),
       })
     ),
   }).index("by_form", ["formId", "order"]),
@@ -68,7 +63,7 @@ export default defineSchema({
     answers: v.array(
       v.object({
         fieldId: v.id("formFields"),
-        value: v.union(v.string(), v.number(), v.array(v.string()), v.null()),
+        value: v.union(v.string(), v.number(), v.null()),
       })
     ),
   })
