@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { fieldTypeSchema } from "./schema";
 
 // Get all form fields for a specific form
 export const getFormFields = query({
@@ -20,7 +21,7 @@ export const createFormField = mutation({
   args: {
     formId: v.id("forms"),
     order: v.number(),
-    type: v.string(),
+    type: fieldTypeSchema,
     label: v.string(),
     required: v.boolean(),
     placeholder: v.optional(v.string()),
@@ -35,13 +36,11 @@ export const createFormField = mutation({
     ),
   },
   handler: async (ctx, args) => {
-    // Verify that the form exists
     const form = await ctx.db.get(args.formId);
     if (!form) {
       throw new Error("Form not found");
     }
 
-    // Create the new field
     const fieldId = await ctx.db.insert("formFields", {
       formId: args.formId,
       order: args.order,
@@ -67,7 +66,7 @@ export const updateFormField = mutation({
   args: {
     fieldId: v.id("formFields"),
     order: v.number(),
-    type: v.string(),
+    type: fieldTypeSchema,
     label: v.string(),
     required: v.boolean(),
     placeholder: v.optional(v.string()),
@@ -130,7 +129,7 @@ export const deleteFormField = mutation({
     const remainingFields = await ctx.db
       .query("formFields")
       .withIndex("by_form", (q) => q.eq("formId", formId))
-      .order("asc", "order")
+      .order("asc")
       .collect();
 
     // Reorder the remaining fields

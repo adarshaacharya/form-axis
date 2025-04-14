@@ -10,7 +10,11 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { FormGeneration } from "@/app/api/forms/generate/schema";
 
-export default function CreateFormButton() {
+type Props = {
+  label?: string;
+};
+
+export default function CreateFormButton({ label }: Props) {
   const [showPromptModal, setShowPromptModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -48,7 +52,7 @@ export default function CreateFormButton() {
       toast.success("Form created successfully!");
 
       // Redirect to the form page
-      router.push(`/forms/${formId}`);
+      router.push(`/dashboard/forms/${formId}`);
 
       // Close the modal
       setShowPromptModal(false);
@@ -68,7 +72,7 @@ export default function CreateFormButton() {
     <>
       <Button onClick={() => setShowPromptModal(true)} className="gap-2">
         <Plus className="h-4 w-4" />
-        Create Form
+        {label || "Create Form"}
       </Button>
 
       <AddPromptModal

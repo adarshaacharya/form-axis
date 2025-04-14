@@ -22,6 +22,7 @@ import {
 import { useRouter } from "next/navigation";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
+import CreateFormButton from "@/components/prompt-dialog/create-form-button";
 
 // Define the form type based on your schema
 interface Form {
@@ -182,10 +183,13 @@ export function FormsTable() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Your Forms</h2>
-        <Button onClick={() => router.push("/dashboard/forms/new")}>
-          Create Form
-        </Button>
+      <div>
+        <h1 className="text-3xl font-semibold tracking-tight">Your Forms</h1>
+        <p className="text-muted-foreground mt-2">
+          Manage your forms, view responses, and edit settings.
+        </p>
+      </div>
+        <CreateFormButton label="Generate Form" />
       </div>
 
       <DataTable columns={columns} data={forms} key="forms-table" />

@@ -1,5 +1,5 @@
 import { defineSchema, defineTable } from "convex/server";
-import { v } from "convex/values";
+import { v, Infer } from "convex/values";
 
 export const fieldTypeSchema = v.union(
   v.literal("shortText"),
@@ -9,6 +9,8 @@ export const fieldTypeSchema = v.union(
   v.literal("phone"),
   v.literal("time")
 );
+
+export type FieldType = Infer<typeof fieldTypeSchema>;
 
 export default defineSchema({
   users: defineTable({

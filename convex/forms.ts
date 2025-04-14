@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { fieldTypeSchema } from "./schema";
+import { internal } from "./_generated/api";
 
 export const listForms = query({
   args: {},
@@ -57,6 +58,35 @@ export const createForm = mutation({
       updatedAt: new Date().toISOString(),
       isPublished: false,
       settings: { allowAnonymous: true, collectEmail: false },
+    });
+
+    if (args.questions) {
+      for (const question of args.questions) {
+        const formFields = await ctx.db
+          .query("formFields")
+          .withIndex("by_form", (q) => q.eq("formId", formId))
+          .order("asc")
+          .collect();
+
+        const order =
+          formFields.length > 0
+            ? formFields[formFields.length - 1].order + 1
+            : 0;
+
+        await ctx.db.insert("formFields", {
+          formId: formId,
+          order: order,
+          type: question.type,
+          label: question.content,
+          required: question.required,
+          placeholder: "",
+          validation: undefined,
+          description: "",
+        });
+      }
+    }
+    await ctx.db.patch(formId, {
+      updatedAt: new Date().toISOString(),
     });
 
     return formId;

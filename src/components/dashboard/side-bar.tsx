@@ -40,7 +40,7 @@ export function DashboardSideBar() {
   const pathname = usePathname();
 
   return (
-    <div className="min-[1024px]:block hidden w-64 border-r h-full bg-background">
+    <div className="min-[1024px]:block hidden w-48 border-r h-full bg-background">
       <div className="flex h-full flex-col">
         <div className="flex h-[3.45rem] items-center border-b px-4">
           <Link
@@ -61,7 +61,8 @@ export function DashboardSideBar() {
               href={item.href}
               className={clsx(
                 "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
-                pathname === item.href
+                pathname === item.href || 
+                (pathname.startsWith(item.href) && item.href !== "/dashboard")
                   ? "bg-primary/10 text-primary hover:bg-primary/20"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
