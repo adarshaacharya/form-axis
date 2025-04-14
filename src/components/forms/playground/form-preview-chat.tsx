@@ -5,6 +5,7 @@ import { AnimatePresence } from "motion/react";
 import { useScrollToBottom } from "@/hooks/use-scroll-to-bottom";
 import { MessageItem } from "./message-item";
 import { ChatInput } from "./chat-input";
+import { FormWelcome } from "./form-welcome";
 
 interface Message {
   id: string;
@@ -16,47 +17,52 @@ interface FormPreviewChatProps {
   title: string;
   description: string;
   fields: any[];
+  onComplete?: (answers: Record<string, string>) => void;
 }
 
 export function FormPreviewChat({
   title,
   description,
   fields,
+  onComplete,
 }: FormPreviewChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isThinking, setIsThinking] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   // Use our custom hook to automatically scroll to bottom when messages change
   const scrollRef = useScrollToBottom([messages]);
 
   // Initialize chat with form introduction
   useEffect(() => {
-    const initialMessages: Message[] = [
-      {
-        id: "intro",
-        type: "system",
-        content: (
-          <div className="space-y-2">
-            <h3 className="font-medium text-lg">{title}</h3>
-            {description && (
-              <p className="text-muted-foreground">{description}</p>
-            )}
-            <p>Please answer the following questions. Let's begin!</p>
-          </div>
-        ),
-      },
-    ];
+    if (!showWelcome) {
+      const initialMessages: Message[] = [
+        {
+          id: "intro",
+          type: "system",
+          content: (
+            <div className="space-y-2">
+              <h3 className="font-medium text-lg">{title}</h3>
+              {description && (
+                <p className="text-muted-foreground">{description}</p>
+              )}
+              <p>Please answer the following questions. Let's begin!</p>
+            </div>
+          ),
+        },
+      ];
 
-    // Only add first question if there are fields
-    if (fields.length > 0) {
-      initialMessages.push(createFieldMessage(fields[0]));
+      // Only add first question if there are fields
+      if (fields.length > 0) {
+        initialMessages.push(createFieldMessage(fields[0]));
+      }
+
+      setMessages(initialMessages);
     }
-
-    setMessages(initialMessages);
-  }, [title, description, fields]);
+  }, [title, description, fields, showWelcome]);
 
   // Create field message
   const createFieldMessage = (field: any) => {
@@ -129,6 +135,11 @@ export function FormPreviewChat({
       } else {
         setIsCompleted(true);
 
+        // Call onComplete if provided
+        if (onComplete) {
+          onComplete(answers);
+        }
+
         // Show completion message
         setMessages((prev) => [
           ...prev,
@@ -151,6 +162,21 @@ export function FormPreviewChat({
 
   // Get current field
   const currentField = fields[currentFieldIndex];
+
+  // Handle start form
+  const handleStartForm = () => {
+    setShowWelcome(false);
+  };
+
+  if (showWelcome) {
+    return (
+      <FormWelcome
+        title={title}
+        description={description}
+        onStart={handleStartForm}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col h-full">

@@ -48,7 +48,7 @@ export function FormsTable() {
   const router = useRouter();
 
   const copyShareLink = (formId: Id<"forms">) => {
-    const shareLink = `${window.location.origin}/forms/${formId}/submit`;
+    const shareLink = `${window.location.origin}/forms/${formId}`;
     navigator.clipboard.writeText(shareLink);
     toast.success("Share link copied to clipboard!", {
       description: "You can now share this link with others.",
@@ -183,12 +183,12 @@ export function FormsTable() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Your Forms</h1>
-        <p className="text-muted-foreground mt-2">
-          Manage your forms, view responses, and edit settings.
-        </p>
-      </div>
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">Your Forms</h1>
+          <p className="text-muted-foreground mt-2">
+            Manage your forms, view responses, and edit settings.
+          </p>
+        </div>
         <CreateFormButton label="Generate Form" />
       </div>
 

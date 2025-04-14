@@ -19,12 +19,34 @@ export const getForm = query({
   args: { formId: v.id("forms") },
   handler: async (ctx, args) => {
     const form = await ctx.db.get(args.formId);
-    if (!form) throw new Error("Form not found");
-    if (!form.isPublished) {
-      const identity = await ctx.auth.getUserIdentity();
-      if (!identity || identity.subject !== form.userId)
-        throw new Error("Not authorized");
+    if (!form) return null;
+
+    // Published forms are accessible to everyone
+    if (form.isPublished) {
+      return form;
     }
+
+    // Unpublished forms require authentication and ownership
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.subject !== form.userId) {
+      return null; // Return null instead of throwing for public routes
+    }
+
+    return form;
+  },
+});
+
+// For public form access specifically (no auth check)
+export const getPublicForm = query({
+  args: { formId: v.id("forms") },
+  handler: async (ctx, args) => {
+    const form = await ctx.db.get(args.formId);
+
+    // Only return the form if it exists and is published
+    if (!form || !form.isPublished) {
+      return null;
+    }
+
     return form;
   },
 });

@@ -20,16 +20,18 @@ export function MessageItem({ type, content }: MessageItemProps) {
       className={`flex items-start gap-3 ${isUser ? "flex-row-reverse ml-auto" : ""}`}
     >
       {type === "system" || type === "thinking" ? (
-        <Avatar className="h-8 w-8 mt-0.5">
-          <AvatarFallback>AI</AvatarFallback>
+        <Avatar className="h-8 w-8 mt-0.5 border bg-primary/10">
+          <AvatarFallback className="text-primary text-xs font-medium">
+            AI
+          </AvatarFallback>
           <AvatarImage>
             <Bot className="h-4 w-4 text-primary" />
           </AvatarImage>
         </Avatar>
       ) : (
-        <Avatar className="h-8 w-8 bg-primary mt-0.5">
-          <AvatarFallback>
-            <User className="h-4 w-4 text-background" />
+        <Avatar className="h-8 w-8 mt-0.5 bg-gradient-to-br from-purple-600 to-indigo-600 shadow-md">
+          <AvatarFallback className="text-primary-foreground text-xs font-medium">
+            <User className="h-4 w-4 text-white" />
           </AvatarFallback>
         </Avatar>
       )}

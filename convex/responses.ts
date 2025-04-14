@@ -1,24 +1,33 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-export const listFormResponses = query({
+// Get responses for a form (for form owner)
+export const getFormResponses = query({
   args: { formId: v.id("forms") },
   handler: async (ctx, args) => {
+    // Check authentication
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
-
-    const form = await ctx.db.get(args.formId);
-    if (!form || form.userId !== identity.subject) {
-      throw new Error("Not authorized to view responses");
+    if (!identity) {
+      throw new Error("Not authenticated");
     }
 
-    return await ctx.db
+    // Get the form to check ownership
+    const form = await ctx.db.get(args.formId);
+    if (!form || form.userId !== identity.subject) {
+      throw new Error("Not authorized");
+    }
+
+    // Get all responses for the form
+    const responses = await ctx.db
       .query("responses")
       .withIndex("by_form", (q) => q.eq("formId", args.formId))
       .collect();
+
+    return responses;
   },
 });
 
+// Submit a form response
 export const submitResponse = mutation({
   args: {
     formId: v.id("forms"),
@@ -28,63 +37,33 @@ export const submitResponse = mutation({
         value: v.union(v.string(), v.number(), v.null()),
       })
     ),
-    email: v.optional(v.string()),
+    respondentEmail: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
+    // Check if the form exists and is published
     const form = await ctx.db.get(args.formId);
-
-    if (!form) throw new Error("Form not found");
-    if (!form.isPublished) throw new Error("Form is not published");
-    if (!form.settings.allowAnonymous && !identity) {
-      throw new Error("Authentication required to submit this form");
-    }
-    if (form.settings.collectEmail && !args.email) {
-      throw new Error("Email is required for this form");
+    if (!form) {
+      throw new Error("Form not found");
     }
 
-    // Check response limits
-    if (form.settings.maxResponses) {
-      const responseCount = await ctx.db
-        .query("responses")
-        .withIndex("by_form", (q) => q.eq("formId", args.formId))
-        .collect();
-
-      if (responseCount.length >= form.settings.maxResponses) {
-        throw new Error("Form has reached maximum number of responses");
-      }
+    if (!form.isPublished) {
+      throw new Error("Cannot submit responses to an unpublished form");
     }
 
-    // Check expiration
-    if (
-      form.settings.expiresAt &&
-      new Date(form.settings.expiresAt) < new Date()
-    ) {
-      throw new Error("Form has expired");
-    }
+    // Get optional user identity if available
+    const identity = await ctx.auth.getUserIdentity();
+    const userId = identity?.subject;
 
-    // Validate required fields
-    const fields = await ctx.db
-      .query("formFields")
-      .withIndex("by_form", (q) => q.eq("formId", args.formId))
-      .collect();
-
-    const requiredFields = fields.filter((field) => field.required);
-    const answeredFieldIds = args.answers.map((answer) => answer.fieldId);
-
-    for (const field of requiredFields) {
-      if (!answeredFieldIds.includes(field._id)) {
-        throw new Error(`Required field "${field.label}" is not answered`);
-      }
-    }
-
-    return await ctx.db.insert("responses", {
+    // Create a new response entry
+    const responseId = await ctx.db.insert("responses", {
       formId: args.formId,
-      userId: identity?.subject,
+      userId: userId,
       submittedAt: new Date().toISOString(),
-      respondentEmail: args.email,
+      respondentEmail: args.respondentEmail,
       answers: args.answers,
     });
+
+    return responseId;
   },
 });
 
