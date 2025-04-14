@@ -2,16 +2,12 @@
 
 import { z } from "zod";
 
-
-
-// Schema for a single question
 const questionSchema = z.object({
   content: z.string().min(1, "Question content is required"),
   required: z.boolean(),
   type: z.enum(["shortText", "longText", "number", "email", "phone", "time"]),
 });
 
-// Schema for form generation response
 export const formGenerationSchema = z.object({
   title: z.string(),
   description: z.string(),

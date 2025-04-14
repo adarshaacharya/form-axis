@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { FormPreviewChat } from "./form-preview-chat";
 import { motion } from "motion/react";
+import Link from "next/link";
 
 interface FormPreviewPanelProps {
   form: any;
@@ -27,14 +28,14 @@ export function FormPreviewPanel({ form, formFields }: FormPreviewPanelProps) {
           <CardTitle>Form Preview</CardTitle>
           <CardDescription>
             See how your form will appear to respondents. Enter{" "}
-            <a
-              href="localhost:3000"
+            <Link
+              href={process.env.NEXT_PUBLIC_APP_URL + "/forms/" + form._id}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 hover:underline"
             >
-              preview mode
-            </a>{" "}
+              live mode
+            </Link>{" "}
             for a better experience.
           </CardDescription>
         </CardHeader>
