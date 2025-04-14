@@ -26,7 +26,16 @@ export function FormPreviewPanel({ form, formFields }: FormPreviewPanelProps) {
         <CardHeader className="pb-2 border-b">
           <CardTitle>Form Preview</CardTitle>
           <CardDescription>
-            See how your form will appear to respondents
+            See how your form will appear to respondents. Enter{" "}
+            <a
+              href="localhost:3000"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              preview mode
+            </a>{" "}
+            for a better experience.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0 flex-1 overflow-hidden">

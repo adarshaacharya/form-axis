@@ -27,12 +27,19 @@ export function ChatInput({
     setUserInput("");
   };
 
-  if (!currentField) return null;
+  //   if (!currentField) return null;
 
   return (
     <div className="border-t p-3">
       <div className="flex items-center gap-2">
-        {currentField.type === "shortText" && (
+        <Input
+          placeholder={currentField.placeholder || "Type your answer..."}
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          className="flex-1 rounded-full border-muted-foreground/20 h-12 px-4 text-base"
+        />
+        {/* {currentField.type === "shortText" && (
           <Input
             placeholder={currentField.placeholder || "Type your answer..."}
             value={userInput}
@@ -40,19 +47,21 @@ export function ChatInput({
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             className="flex-1 rounded-full border-muted-foreground/20 h-12 px-4 text-base"
           />
-        )}
+        )} */}
 
-        {currentField.type === "longText" && (
-          <Textarea
+        {/* {currentField.type === "longText" && ( */}
+        {/* <Textarea
             placeholder={currentField.placeholder || "Type your answer..."}
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+
             rows={4}
             className="flex-1 border-muted-foreground/20 rounded-2xl p-4 text-base resize-none"
-          />
-        )}
+          /> */}
+        {/* )} */}
 
-        {currentField.type === "number" && (
+        {/* {currentField.type === "number" && (
           <Input
             type="number"
             placeholder={currentField.placeholder || "Enter a number..."}
@@ -96,7 +105,7 @@ export function ChatInput({
             onChange={(e) => setUserInput(e.target.value)}
             className="flex-1 rounded-full border-muted-foreground/20 h-12 px-4 text-base"
           />
-        )}
+        )} */}
 
         <Button
           onClick={handleSubmit}

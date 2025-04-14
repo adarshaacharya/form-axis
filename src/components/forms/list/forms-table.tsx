@@ -150,13 +150,13 @@ export function FormsTable() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => router.push(`/dashboard/forms/${form._id}`)}
+                onClick={() => router.push(`/forms/${form._id}`)}
               >
                 <Eye className="mr-2 h-4 w-4" />
-                View
+                Preview
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => router.push(`/dashboard/forms/${form._id}/edit`)}
+                onClick={() => router.push(`/dashboard/forms/${form._id}`)}
               >
                 <Pencil className="mr-2 h-4 w-4" />
                 Edit

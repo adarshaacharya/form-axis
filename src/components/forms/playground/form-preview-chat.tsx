@@ -18,6 +18,7 @@ interface FormPreviewChatProps {
   description: string;
   fields: any[];
   onComplete?: (answers: Record<string, string>) => void;
+  fullscreen?: boolean;
 }
 
 export function FormPreviewChat({
@@ -25,6 +26,7 @@ export function FormPreviewChat({
   description,
   fields,
   onComplete,
+  fullscreen = false,
 }: FormPreviewChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
@@ -71,10 +73,7 @@ export function FormPreviewChat({
       type: "system",
       content: (
         <div>
-          <p>
-            {field.label}
-            {field.required && <span className="text-red-500">*</span>}
-          </p>
+          <p>{field.label}</p>
           {field.description && (
             <p className="text-muted-foreground text-sm mt-1">
               {field.description}
@@ -168,40 +167,43 @@ export function FormPreviewChat({
     setShowWelcome(false);
   };
 
-  if (showWelcome) {
-    return (
-      <FormWelcome
-        title={title}
-        description={description}
-        onStart={handleStartForm}
-      />
-    );
-  }
-
   return (
-    <div className="flex flex-col h-full">
-      <div
-        ref={scrollRef}
-        className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar"
-      >
-        <AnimatePresence>
-          {messages.map((message) => (
-            <MessageItem
-              key={message.id}
-              type={message.type}
-              content={message.content}
-            />
-          ))}
-        </AnimatePresence>
-      </div>
-
-      {!isCompleted && currentField && !isThinking && (
-        <ChatInput
-          currentField={currentField}
-          currentFieldIndex={currentFieldIndex}
-          fieldsCount={fields.length}
-          onSubmit={handleSubmitAnswer}
+    <div className="flex flex-col h-full overflow-hidden">
+      {showWelcome ? (
+        <FormWelcome
+          title={title}
+          description={description}
+          onStart={handleStartForm}
+          fullscreen={fullscreen}
         />
+      ) : (
+        <div className="flex flex-col h-full overflow-hidden">
+          <div
+            ref={scrollRef}
+            className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar"
+          >
+            <AnimatePresence>
+              {messages.map((message) => (
+                <MessageItem
+                  key={message.id}
+                  type={message.type}
+                  content={message.content}
+                />
+              ))}
+            </AnimatePresence>
+          </div>
+
+          {!isCompleted && currentField && (
+            <div className="border-t border-border/30 py-3 px-4 ">
+              <ChatInput
+                currentField={currentField}
+                currentFieldIndex={currentFieldIndex}
+                fieldsCount={fields.length}
+                onSubmit={handleSubmitAnswer}
+              />
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

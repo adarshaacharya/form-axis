@@ -115,9 +115,15 @@ export function FormFieldCard({
             {fieldTypeLabels[field.type] || field.type}
           </Badge>
           {isEditing ? (
-            <ChevronUp className="h-5 w-5 text-muted-foreground" />
+            <ChevronUp
+              className="h-5 w-5 text-muted-foreground"
+              onClick={onToggleEdit}
+            />
           ) : (
-            <ChevronDown className="h-5 w-5 text-muted-foreground" />
+            <ChevronDown
+              className="h-5 w-5 text-muted-foreground"
+              onClick={onToggleEdit}
+            />
           )}
         </div>
       </CardHeader>

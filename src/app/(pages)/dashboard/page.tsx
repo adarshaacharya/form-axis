@@ -33,7 +33,7 @@ export default async function Dashboard() {
         </div>
         <CreateFormButton />
       </div>
- 
+
       {/* Quick Stats Row */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
@@ -167,7 +167,6 @@ export default async function Dashboard() {
         </Card>
       </div>
 
-      {/* Quick Actions */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader>
