@@ -60,9 +60,10 @@ export default defineSchema({
 
   responses: defineTable({
     formId: v.id("forms"),
-    userId: v.optional(v.string()),
+    userId: v.optional(v.union(v.string(), v.id("users"), v.null())),
     submittedAt: v.string(),
-    respondentEmail: v.optional(v.string()),
+    // can be null as well
+    respondentEmail: v.optional(v.union(v.string(), v.null())),
     answers: v.array(
       v.object({
         fieldId: v.id("formFields"),

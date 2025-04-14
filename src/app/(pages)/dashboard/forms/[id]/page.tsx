@@ -4,20 +4,16 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { notFound, useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, CopyIcon, Eye } from "lucide-react";
 import { toast } from "sonner";
-import { FormPreviewPanel } from "@/components/forms/playground/form-preview-panel";
-import { FormEditorPanel } from "@/components/forms/playground/form-editor-panel";
+import { FormTabs } from "@/components/forms/tabs/form-tabs";
 
 export default function FormPage() {
   const router = useRouter();
   const formId = useParams().id as Id<"forms">;
-  const [activeTab, setActiveTab] = useState<"fields" | "settings">("fields");
 
   // Fetch form data
   const form = useQuery(api.forms.getForm, { formId });
@@ -90,34 +86,7 @@ export default function FormPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[700px]">
-        <div className="flex flex-col">
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) =>
-              setActiveTab(value as "fields" | "settings")
-            }
-            className="mb-4"
-          >
-            <TabsList className="grid grid-cols-2 w-full">
-              <TabsTrigger value="fields">Form Fields</TabsTrigger>
-              <TabsTrigger value="settings">Form Settings</TabsTrigger>
-            </TabsList>
-          </Tabs>
-
-          <FormEditorPanel
-            form={form}
-            formFields={formFields}
-            activeTab={activeTab}
-            formId={formId}
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <div className="mb-2 h-10"></div> {/* Spacer to align with tabs */}
-          <FormPreviewPanel form={form} formFields={formFields} />
-        </div>
-      </div>
+      <FormTabs form={form} formFields={formFields} formId={formId} />
     </div>
   );
 }
