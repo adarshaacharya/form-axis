@@ -6,6 +6,7 @@ import { useScrollToBottom } from "@/hooks/use-scroll-to-bottom";
 import { MessageItem } from "./message-item";
 import { ChatInput } from "./chat-input";
 import { FormWelcome } from "./form-welcome";
+import { FormCompletion } from "./form-completion";
 
 interface Message {
   id: string;
@@ -34,11 +35,10 @@ export function FormPreviewChat({
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isThinking, setIsThinking] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
+  const [showCompletionScreen, setShowCompletionScreen] = useState(false);
 
-  // Use our custom hook to automatically scroll to bottom when messages change
   const scrollRef = useScrollToBottom([messages]);
 
-  // Initialize chat with form introduction
   useEffect(() => {
     if (!showWelcome) {
       const initialMessages: Message[] = [
@@ -57,7 +57,6 @@ export function FormPreviewChat({
         },
       ];
 
-      // Only add first question if there are fields
       if (fields.length > 0) {
         initialMessages.push(createFieldMessage(fields[0]));
       }
@@ -66,7 +65,6 @@ export function FormPreviewChat({
     }
   }, [title, description, fields, showWelcome]);
 
-  // Create field message
   const createFieldMessage = (field: any) => {
     return {
       id: `field-${field._id}`,
@@ -84,13 +82,11 @@ export function FormPreviewChat({
     };
   };
 
-  // Handle submit answer
   const handleSubmitAnswer = (userInput: string) => {
     if (currentFieldIndex >= fields.length) return;
 
     const currentField = fields[currentFieldIndex];
 
-    // Add user message
     setMessages((prev) => [
       ...prev,
       {
@@ -100,13 +96,11 @@ export function FormPreviewChat({
       },
     ]);
 
-    // Store answer
     setAnswers((prev) => ({
       ...prev,
       [currentField._id as string]: userInput,
     }));
 
-    // Show thinking state
     setIsThinking(true);
     setMessages((prev) => [
       ...prev,
@@ -117,29 +111,24 @@ export function FormPreviewChat({
       },
     ]);
 
-    // Move to next field or finish
     const nextIndex = currentFieldIndex + 1;
 
     setTimeout(() => {
       setIsThinking(false);
 
-      // Remove thinking message
       setMessages((prev) => prev.filter((m) => m.type !== "thinking"));
 
       if (nextIndex < fields.length) {
         setCurrentFieldIndex(nextIndex);
 
-        // Add next field message
         setMessages((prev) => [...prev, createFieldMessage(fields[nextIndex])]);
       } else {
         setIsCompleted(true);
 
-        // Call onComplete if provided
         if (onComplete) {
           onComplete(answers);
         }
 
-        // Show completion message
         setMessages((prev) => [
           ...prev,
           {
@@ -151,20 +140,37 @@ export function FormPreviewChat({
                   Thank you for completing this form!
                 </p>
                 <p>Your responses have been recorded.</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  You will see a summary screen in a moment...
+                </p>
               </div>
             ),
           },
         ]);
+
+        setTimeout(() => {
+          setShowCompletionScreen(true);
+        }, 2000);
       }
-    }, 1000); // Thinking state for 1 second
+    }, 1000);
   };
 
-  // Get current field
   const currentField = fields[currentFieldIndex];
 
-  // Handle start form
   const handleStartForm = () => {
     setShowWelcome(false);
+  };
+
+  const handleReturnHome = () => {
+    if (window.parent !== window) {
+      try {
+        window.parent.postMessage({ type: "FORM_COMPLETED" }, "*");
+      } catch (e) {
+        console.error("Failed to notify parent window", e);
+      }
+    }
+
+    window.location.href = "/";
   };
 
   return (
@@ -174,6 +180,14 @@ export function FormPreviewChat({
           title={title}
           description={description}
           onStart={handleStartForm}
+          fullscreen={fullscreen}
+        />
+      ) : showCompletionScreen ? (
+        <FormCompletion
+          title={title}
+          answers={answers}
+          fields={fields}
+          onViewAnswers={handleReturnHome}
           fullscreen={fullscreen}
         />
       ) : (
@@ -200,6 +214,7 @@ export function FormPreviewChat({
                 currentFieldIndex={currentFieldIndex}
                 fieldsCount={fields.length}
                 onSubmit={handleSubmitAnswer}
+                isThinking={isThinking}
               />
             </div>
           )}

@@ -33,16 +33,6 @@ export function FormDataTable({
   onRowClick,
   onArchiveRequest,
 }: FormDataTableProps) {
-  const router = useRouter();
-
-  const copyShareLink = (formId: Id<"forms">) => {
-    const shareLink = `${window.location.origin}/forms/${formId}`;
-    navigator.clipboard.writeText(shareLink);
-    toast.success("Share link copied to clipboard!", {
-      description: "You can now share this link with others.",
-    });
-  };
-
   const columns: ColumnDef<Form>[] = [
     {
       accessorKey: "title",
@@ -154,7 +144,7 @@ function FormRowActions({ form, onArchiveRequest }: FormRowActionsProps) {
         <Button
           variant="ghost"
           className="h-8 w-8 p-0"
-          onClick={(e) => e.stopPropagation()} // Prevent row click event
+          onClick={(e) => e.stopPropagation()}
         >
           <span className="sr-only">Open menu</span>
           <MoreHorizontal className="h-4 w-4" />
@@ -162,10 +152,20 @@ function FormRowActions({ form, onArchiveRequest }: FormRowActionsProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => router.push(`/forms/${form._id}`)}>
-          <Eye className="mr-2 h-4 w-4" />
-          Preview
-        </DropdownMenuItem>
+        <a
+          href={`${process.env.NEXT_PUBLIC_APP_URL}/forms/${form._id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <DropdownMenuItem>
+            <Eye className="mr-2 h-4 w-4" />
+            Preview
+          </DropdownMenuItem>
+        </a>
+
         <DropdownMenuItem
           onClick={() => router.push(`/dashboard/forms/${form._id}`)}
         >

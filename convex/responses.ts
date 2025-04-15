@@ -48,22 +48,18 @@ export const submitResponse = mutation({
     respondentEmail: v.optional(v.union(v.string(), v.null())),
   },
   handler: async (ctx, args) => {
-    // Check if form exists
     const form = await ctx.db.get(args.formId);
     if (!form) {
       throw new Error("Form not found");
     }
 
-    // Check if form is published
-    if (!form.isPublished) {
+    if (form.status !== "published") {
       throw new Error("Cannot submit response to unpublished form");
     }
 
-    // Get identity if available
     const identity = await ctx.auth.getUserIdentity();
     const userId = identity?.subject;
 
-    // Create response
     const responseId = await ctx.db.insert("responses", {
       formId: args.formId,
       userId: userId || null,
@@ -82,31 +78,26 @@ export const getResponseDetails = query({
     responseId: v.id("responses"),
   },
   handler: async (ctx, args) => {
-    // Get user identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Not authenticated");
     }
 
-    // Get response
     const response = await ctx.db.get(args.responseId);
     if (!response) {
       throw new Error("Response not found");
     }
 
-    // Verify form ownership
     const form = await ctx.db.get(response.formId);
     if (!form || form.userId !== identity.subject) {
       throw new Error("Not authorized to view this response");
     }
 
-    // Get form fields for reference
     const formFields = await ctx.db
       .query("formFields")
       .withIndex("by_form", (q) => q.eq("formId", response.formId))
       .collect();
 
-    // Get field information for each answer
     const enhancedAnswers = await Promise.all(
       response.answers.map(async (answer) => {
         const field = await ctx.db.get(answer.fieldId);

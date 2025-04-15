@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Id } from "@/convex/_generated/dataModel";
-import { fieldTypeSchema } from "@/convex/schema";
 import { motion, AnimatePresence } from "motion/react";
 
 import { Button } from "@/components/ui/button";

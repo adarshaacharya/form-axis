@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import { useState } from "react";
 
@@ -11,6 +10,7 @@ interface ChatInputProps {
   currentFieldIndex: number;
   fieldsCount: number;
   onSubmit: (value: string) => void;
+  isThinking: boolean;
 }
 
 export function ChatInput({
@@ -18,6 +18,7 @@ export function ChatInput({
   currentFieldIndex,
   fieldsCount,
   onSubmit,
+  isThinking,
 }: ChatInputProps) {
   const [userInput, setUserInput] = useState("");
 
@@ -38,6 +39,10 @@ export function ChatInput({
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           className="flex-1 rounded-full border-muted-foreground/20 h-12 px-4 text-base"
+          disabled={isThinking}
+          autoFocus
+          autoComplete="off"
+          autoCorrect="off"
         />
         {/* {currentField.type === "shortText" && (
           <Input
