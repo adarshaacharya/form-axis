@@ -39,12 +39,10 @@ export const getForm = query({
     const form = await ctx.db.get(args.formId);
     if (!form) return null;
 
-    // Published forms are accessible to everyone
     if (form.status === "published") {
       return form;
     }
 
-    // Unpublished forms require authentication and ownership
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.subject !== form.userId) {
       return null; // Return null instead of throwing for public routes
