@@ -196,3 +196,18 @@
 .dark .custom-scrollbar:hover {
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
+
+
+/*
+* Tailwind why did you do this , yikes ><
+* https://github.com/shadcn-ui/ui/issues/2212 
+*/
+
+button,
+[role="button"] {
+    cursor: pointer;
+}
+
+:disabled {
+    cursor: default;
+}

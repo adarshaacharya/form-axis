@@ -9,7 +9,7 @@ AI-native Forms that are purely conversational. You set up the form or survey by
 - Nextjs
 - Tailwind css
 - Shadcn/ui
-- Typescript
+- TypeScript
 - Convex as database
 - Clerk as auth client
 - Vercel as deployment
@@ -17,9 +17,9 @@ AI-native Forms that are purely conversational. You set up the form or survey by
 
 ## Key Features
 
-- user need to login using clerk to create the forms
-- ask user for prompt on which topic they link to create form on
-- generate questions based on prompt by user using gemini llm
+- User needs to login using Clerk to create the forms
+- Ask user for prompt on which topic they want to create a form
+- Generate questions based on prompt by user using Gemini LLM
 - create shareable link of that form
 - user will submit answer one by one
 - at the end show answers summary
@@ -74,8 +74,8 @@ You are assisting with a modern Next.js + Convex form (typescript alternative) a
 - Follow component composition over inheritance
 - Implement proper TypeScript types for all props and functions
 - Reserve function declarations for utilities and helpers
-- If the component is too large, break it down into smaller components by creating a new file for each component 
-- Group similar components together in a folder inside `app/components`
+- If the component is too large, break it down into smaller components by creating a new file for each component
+- Group similar components together in a folder inside `src/app/components`
 
 2. Data Layer:
 
@@ -190,8 +190,9 @@ http.route({
                             },
                             });
                             ```
-
   ````
+
+`````
 
 - Below is an example of a schema with validators that codify a discriminated union type:
 
@@ -489,3 +490,4 @@ q.search("body", "hello hi").eq("channel", "#general"),
                     ```
 
 - Convex storage stores items as `Blob` objects. You must convert all items to/from a `Blob` when using Convex storage.
+`````
