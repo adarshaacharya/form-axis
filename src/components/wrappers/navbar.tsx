@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import { Dialog } from "@radix-ui/react-dialog";
 import { motion } from "motion/react";
-import { Menu, LucideRocket } from "lucide-react";
+import { Menu, LucideFileAxis3D } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import { ModeToggle } from "../mode-toggle";
@@ -57,7 +57,7 @@ export function NavBar() {
             <SheetContent side="left" className="w-[300px]">
               <SheetHeader className="pb-6 border-b">
                 <SheetTitle className="flex items-center gap-2">
-                  <LucideRocket className="h-5 w-5 text-orange-600" />
+                  <LucideFileAxis3D className="h-5 w-5 text-orange-600" />
                   <span>Form Axis</span>
                 </SheetTitle>
               </SheetHeader>
@@ -89,7 +89,7 @@ export function NavBar() {
             </SheetContent>
           </Dialog>
           <Link href="/" prefetch={true} className="flex items-center gap-2">
-            <LucideRocket className="h-5 w-5 " />
+            <LucideFileAxis3D className="h-5 w-5 " />
             <span className="font-semibold">Form Axis</span>
           </Link>
         </div>
@@ -97,7 +97,7 @@ export function NavBar() {
         {/* Logo - Desktop */}
         <div className="hidden lg:flex items-center gap-2">
           <Link href="/" prefetch={true} className="flex items-center gap-2">
-            <LucideRocket className="h-5 w-5 text-orange-400" />
+            <LucideFileAxis3D className="h-5 w-5 text-orange-400" />
             <span className="font-semibold">Form Axis</span>
           </Link>
         </div>

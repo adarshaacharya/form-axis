@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, Github, RocketIcon } from "lucide-react";
+import { ArrowRight, Github, LucideFileAxis3D } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { motion } from "motion/react";
@@ -24,7 +24,7 @@ export function HeroSection() {
           className="mx-auto w-fit rounded-full border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-900/30 px-4 py-1 mb-6"
         >
           <div className="flex items-center gap-2 text-sm font-medium text-orange-900 dark:text-orange-200">
-            <RocketIcon className="h-4 w-4" />
+            <LucideFileAxis3D className="h-4 w-4" />
             <span>AI-native Forms</span>
           </div>
         </motion.div>
@@ -47,9 +47,8 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
         >
-          Create forms by simply writing prompts. Share a link and let users
-          answer naturally through a chat interface. No more dropdowns or
-          textboxes—just conversation.
+          Forget boring forms! Just type a prompt, share a link, and watch users
+          chat their way to glory—no clipboards, no pens, just pure conversational magic.
         </motion.p>
 
         {/* CTA Buttons */}

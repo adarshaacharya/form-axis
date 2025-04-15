@@ -61,7 +61,15 @@ export function FAQ() {
           <p className="text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto">
             Everything you need to know about Form Axis&apos;s AI-native
             conversational forms. Can&apos;t find the answer you&apos;re looking
-            for? Reach out to our team.
+            for?&nbsp;
+            <a
+              href="https://adarsha.dev"
+              className="text-primary/95 underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Reach out to me.
+            </a>
           </p>
         </div>
 

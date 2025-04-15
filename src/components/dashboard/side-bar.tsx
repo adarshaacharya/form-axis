@@ -2,13 +2,12 @@
 
 import clsx from "clsx";
 import {
-  Banknote,
   Folder,
   HomeIcon,
   Settings,
   LucideIcon,
-  RocketIcon,
   ArchiveIcon,
+  LucideFileAxis3D,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -54,7 +53,7 @@ export function DashboardSideBar() {
             className="flex items-center gap-2 font-semibold hover:cursor-pointer"
             href="/"
           >
-            <RocketIcon className="h-5 w-5 text-orange-400" />
+            <LucideFileAxis3D className="h-5 w-5 text-orange-400" />
             <span>Form Axis</span>
           </Link>
         </div>

@@ -7,7 +7,7 @@ export const fieldTypeSchema = v.union(
   v.literal("number"),
   v.literal("email"),
   v.literal("phone"),
-  v.literal("time")
+  v.literal("calendar"),
 );
 
 export type FieldType = Infer<typeof fieldTypeSchema>;
