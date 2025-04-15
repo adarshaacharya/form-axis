@@ -8,6 +8,7 @@ import {
   Settings,
   LucideIcon,
   RocketIcon,
+  ArchiveIcon
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,6 +35,11 @@ const navItems: NavItem[] = [
     href: "/dashboard/settings",
     icon: Settings,
   },
+  {
+    label : "Archives",
+    href: "/dashboard/archives",
+    icon: ArchiveIcon,
+  }
 ];
 
 export function DashboardSideBar() {

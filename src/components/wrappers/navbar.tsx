@@ -23,6 +23,16 @@ const components: { title: string; href: string; description: string }[] = [
     href: "/dashboard",
     description: "Access your personal dashboard.",
   },
+  {
+    title: "Forms",
+    href: "/dashboard/forms",
+    description: "Manage your forms.",
+  },
+  {
+    title: "Archives",
+    href: "/dashboard/archives",
+    description: "View your archived forms.",
+  },
 ];
 
 export function NavBar() {

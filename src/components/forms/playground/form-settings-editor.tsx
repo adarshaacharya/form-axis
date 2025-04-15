@@ -14,7 +14,7 @@ import { Save } from "lucide-react";
 interface FormSettings {
   title: string;
   description?: string;
-  isPublished: boolean;
+  status: "draft" | "published" | "archived";
   settings: {
     allowAnonymous: boolean;
     collectEmail: boolean;
@@ -35,7 +35,7 @@ export function FormSettingsEditor({
   const [formSettings, setFormSettings] = useState<FormSettings>({
     title: form.title,
     description: form.description || "",
-    isPublished: form.isPublished,
+    status: form.status,
     settings: {
       allowAnonymous: form.settings?.allowAnonymous ?? true,
       collectEmail: form.settings?.collectEmail ?? false,
@@ -102,12 +102,12 @@ export function FormSettingsEditor({
             </p>
           </div>
           <Switch
-            id="published"
-            checked={formSettings.isPublished}
+            id="status"
+            checked={formSettings.status === "published"}
             onCheckedChange={(checked) =>
               setFormSettings({
                 ...formSettings,
-                isPublished: checked,
+                status: checked ? "published" : "draft",
               })
             }
           />

@@ -28,7 +28,11 @@ export default defineSchema({
     createdAt: v.string(),
     updatedAt: v.string(),
     userId: v.string(),
-    isPublished: v.boolean(),
+    status: v.union(
+      v.literal("draft"),
+      v.literal("published"),
+      v.literal("archived")
+    ),
     originalPrompt: v.string(),
     settings: v.object({
       allowAnonymous: v.boolean(),
@@ -38,7 +42,7 @@ export default defineSchema({
     }),
   })
     .index("by_user", ["userId"])
-    .index("by_published", ["isPublished"]),
+    .index("by_status", ["status"]),
 
   formFields: defineTable({
     formId: v.id("forms"),

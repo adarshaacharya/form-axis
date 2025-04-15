@@ -1,9 +1,27 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { fieldTypeSchema } from "./schema";
-import { internal } from "./_generated/api";
 
 export const listForms = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+    return await ctx.db
+      .query("forms")
+      .withIndex("by_user", (q) => q.eq("userId", identity.subject))
+      .filter((q) =>
+        q.or(
+          q.eq(q.field("status"), "draft"),
+          q.eq(q.field("status"), "published")
+        )
+      )
+      .collect();
+  },
+});
+
+// New query to get all forms including archived ones, for admin purposes
+export const listAllForms = query({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -22,7 +40,7 @@ export const getForm = query({
     if (!form) return null;
 
     // Published forms are accessible to everyone
-    if (form.isPublished) {
+    if (form.status === "published") {
       return form;
     }
 
@@ -43,7 +61,7 @@ export const getPublicForm = query({
     const form = await ctx.db.get(args.formId);
 
     // Only return the form if it exists and is published
-    if (!form || !form.isPublished) {
+    if (!form || form.status !== "published") {
       return null;
     }
 
@@ -78,7 +96,7 @@ export const createForm = mutation({
       userId: identity.subject,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      isPublished: false,
+      status: "draft", // Changed from isPublished: false
       settings: { allowAnonymous: true, collectEmail: false },
     });
 
@@ -120,7 +138,9 @@ export const updateForm = mutation({
     formId: v.id("forms"),
     title: v.optional(v.string()),
     description: v.optional(v.string()),
-    isPublished: v.optional(v.boolean()),
+    status: v.optional(
+      v.union(v.literal("draft"), v.literal("published"), v.literal("archived"))
+    ),
     settings: v.optional(
       v.object({
         allowAnonymous: v.boolean(),
@@ -139,14 +159,14 @@ export const updateForm = mutation({
     await ctx.db.patch(args.formId, {
       ...(args.title && { title: args.title }),
       ...(args.description !== undefined && { description: args.description }),
-      ...(args.isPublished !== undefined && { isPublished: args.isPublished }),
+      ...(args.status !== undefined && { status: args.status }),
       ...(args.settings && { settings: args.settings }),
       updatedAt: new Date().toISOString(),
     });
   },
 });
 
-export const deleteForm = mutation({
+export const archieveForm = mutation({
   args: { formId: v.id("forms") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -154,6 +174,34 @@ export const deleteForm = mutation({
     const form = await ctx.db.get(args.formId);
     if (!form) throw new Error("Form not found");
     if (form.userId !== identity.subject) throw new Error("Not authorized");
-    await ctx.db.delete(args.formId);
+    await ctx.db.patch(args.formId, { status: "archived" });
+  },
+});
+
+export const listArchivedForms = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+    return await ctx.db
+      .query("forms")
+      .withIndex("by_user", (q) => q.eq("userId", identity.subject))
+      .filter((q) => q.eq(q.field("status"), "archived"))
+      .collect();
+  },
+});
+
+export const unArchiveForm = mutation({
+  args: { formId: v.id("forms") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+    const form = await ctx.db.get(args.formId);
+    if (!form) throw new Error("Form not found");
+    if (form.userId !== identity.subject) throw new Error("Not authorized");
+    await ctx.db.patch(args.formId, {
+      status: "draft",
+      updatedAt: new Date().toISOString(),
+    });
   },
 });

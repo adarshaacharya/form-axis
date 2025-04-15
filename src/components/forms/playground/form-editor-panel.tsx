@@ -40,7 +40,7 @@ export function FormEditorPanel({
         formId,
         title: settings.title,
         description: settings.description,
-        isPublished: settings.isPublished,
+        status: settings.status,
         settings: settings.settings,
       });
       toast.success("Form settings updated");

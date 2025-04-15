@@ -15,10 +15,9 @@ interface DataTableToolbarProps<TData> {
 }
 
 const statuses = [
-  { label: "All", value: "" },
-  { label: "Completed", value: "completed" },
-  { label: "In Progress", value: "in-progress" },
-  { label: "Not Started", value: "not-started" },
+  { label: "Draft", value: "draft" },
+  { label: "Published", value: "published" },
+  { label: "Archived", value: "archived" },
 ];
 
 const priorities = [
@@ -38,7 +37,7 @@ export function FormsTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter tasks..."
+          placeholder="Filter forms..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
@@ -46,9 +45,9 @@ export function FormsTableToolbar<TData>({
           className="h-8 w-[150px] lg:w-[250px]"
         />
 
-        {table.getColumn("isPublished") && (
+        {table.getColumn("status") && (
           <DataTableFacetedFilter
-            column={table.getColumn("isPublished")}
+            column={table.getColumn("status")}
             title="Status"
             options={statuses}
           />
