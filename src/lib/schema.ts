@@ -6,7 +6,7 @@ const fieldTypeSchema = z.enum([
   "number",
   "email",
   "phone",
-  "time",
+  "calendar",
 ]);
 export type FieldType = z.infer<typeof fieldTypeSchema>;
 

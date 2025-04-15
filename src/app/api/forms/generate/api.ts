@@ -1,4 +1,4 @@
-import { formGenerationPrompt } from "@/lib/prompts/form-gen-prompt";
+import { getFormGenPrompt } from "@/lib/prompts/form-gen-prompt";
 import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { FormGeneration, formGenerationSchema } from "@/lib/schema";
@@ -6,17 +6,23 @@ import { FormGeneration, formGenerationSchema } from "@/lib/schema";
 /**
  * Generates form questions based on the provided prompt using Google's Gemini model
  * @param prompt - User prompt describing the form they want to create
+ * @param topics - Optional topics to guide the form generation
  * @returns Generated form with title, description, and questions
  */
 export async function generateFormQuestions(
-  prompt: string
+  prompt: string,
+  topics?: string
 ): Promise<FormGeneration> {
   if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
     throw new Error("Please don't forget to set your Google API key");
   }
 
   try {
-    // Use Vercel AI SDK to generate structured form data
+    const formGenerationPrompt = getFormGenPrompt({
+      prompt,
+      topics,
+    });
+
     const result = await generateObject({
       model: google("gemini-1.5-pro-latest", {
         safetySettings: [
@@ -27,7 +33,7 @@ export async function generateFormQuestions(
         ],
       }),
       schema: formGenerationSchema,
-      prompt: `${formGenerationPrompt}\n\nUser's form request: ${prompt}\n\nGenerate a complete form structure based on this request.`,
+      prompt: formGenerationPrompt,
       temperature: 0.7,
     });
 

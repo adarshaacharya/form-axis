@@ -5,6 +5,7 @@ import { getAuth } from "@clerk/nextjs/server";
 
 const promptSchema = z.object({
   prompt: z.string().min(1, "Prompt is required"),
+  topics: z.string().optional(),
 });
 
 // Route handler for form generation
@@ -29,8 +30,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { prompt } = validationResult.data;
-    const generatedForm = await generateFormQuestions(prompt);
+    const { prompt, topics } = validationResult.data;
+    const generatedForm = await generateFormQuestions(prompt, topics);
 
     console.log("Generated form data:", generatedForm);
 

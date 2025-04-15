@@ -21,7 +21,13 @@ export default function CreateFormButton({ label }: Props) {
 
   const saveFormMutation = useMutation(api.forms.createForm);
 
-  const handleSubmitPrompt = async (prompt: string) => {
+  const handleSubmitPrompt = async ({
+    prompt,
+    topics,
+  }: {
+    prompt: string;
+    topics?: string;
+  }) => {
     try {
       setIsLoading(true);
 
@@ -31,7 +37,7 @@ export default function CreateFormButton({ label }: Props) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, topics }),
       });
 
       if (!response.ok) {
