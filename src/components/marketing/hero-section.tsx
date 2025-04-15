@@ -8,7 +8,7 @@ export function HeroSection() {
   return (
     <section
       className="relative flex flex-col items-center justify-center py-20"
-      aria-label="Form Pilot Hero"
+      aria-label="Form Axis Hero"
     >
       {/* Background gradient */}
       <div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-black bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
@@ -37,7 +37,7 @@ export function HeroSection() {
           className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-orange-800 to-gray-900 dark:from-white dark:via-orange-300 dark:to-white animate-gradient-x pb-2"
         >
           Reimagine forms with <br className="hidden sm:block" />
-          Form Pilot
+          Form Axis
         </motion.h1>
 
         {/* Subtitle */}
@@ -67,7 +67,7 @@ export function HeroSection() {
           </Link>
 
           <Link
-            href="https://github.com/adarshaacharya/form-pilot"
+            href="https://github.com/adarshaacharya/form-axis"
             target="_blank"
             className="flex items-center gap-2 rounded-full px-6 py-2 h-12 border-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             aria-label="View on GitHub"

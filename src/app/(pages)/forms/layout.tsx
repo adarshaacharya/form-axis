@@ -26,7 +26,7 @@ export default function FormLayout({
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
               >
-                Form Pilot
+                Form Axis
               </a>
             </span>
           </div>

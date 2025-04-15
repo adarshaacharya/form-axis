@@ -27,13 +27,13 @@ export async function generateMetadata({
     }
 
     return {
-      title: `${form.title} | Form Pilot`,
+      title: `${form.title} | Form Axis`,
       description: form.description || "Complete this form",
     };
   } catch (error) {
     console.error("Error generating metadata:", error);
     return {
-      title: "Form Pilot",
+      title: "Form Axis",
       description: "Complete this form",
     };
   }

@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Form Pilot",
+  title: "Form Axis",
   description:
     "Create forms by simply writing prompts. Share a link and let users answer naturally through a chat interface. No more dropdowns or textboxes—just conversation.",
 };

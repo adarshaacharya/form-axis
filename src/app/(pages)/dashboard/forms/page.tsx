@@ -2,7 +2,7 @@ import { FormsTable } from "@/components/forms/list/forms-table";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Forms | Form Pilot",
+  title: "Forms | Form Axis",
   description: "View and manage your forms",
 };
 

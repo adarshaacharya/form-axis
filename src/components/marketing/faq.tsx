@@ -10,19 +10,19 @@ import { motion } from "motion/react";
 
 const faqs = [
   {
-    question: "What makes Form Pilot different from traditional forms?",
+    question: "What makes Form Axis different from traditional forms?",
     answer:
-      "Form Pilot creates AI-native conversational forms that don't make you feel like you're filling out a tax return from 1995. It's like the difference between texting your friend and filling out a government customs declaration form. Our chat interface means no more staring at checkboxes wondering if you're legally obligated to check 'Other' when none of the options apply!",
+      "Form Axis creates AI-native conversational forms that don't make you feel like you're filling out a tax return from 1995. It's like the difference between texting your friend and filling out a government customs declaration form. Our chat interface means no more staring at checkboxes wondering if you're legally obligated to check 'Other' when none of the options apply!",
   },
   {
-    question: "Is Form Pilot completely free to use?",
+    question: "Is Form Axis completely free to use?",
     answer:
       "Yes, it's free! Well... unless my server bills and LLM costs skyrocket so high that I have to start selling my furniture. If you suddenly find me coding from a cardboard box with 'Will Program For Food' sign, then we might need to add a small fee. But for now, enjoy the free ride while my bank account still exists! 🚀",
   },
   {
     question: "How do I create a conversational form?",
     answer:
-      "Just type out what you want to ask like you're texting a slightly dim but eager-to-please friend. Form Pilot does the rest, transforming your casual questions into a conversation that flows naturally. No need for a PhD in UX design or spending hours aligning dropdown menus that nobody will read anyway!",
+      "Just type out what you want to ask like you're texting a slightly dim but eager-to-please friend. Form Axis does the rest, transforming your casual questions into a conversation that flows naturally. No need for a PhD in UX design or spending hours aligning dropdown menus that nobody will read anyway!",
   },
   {
     question: "Can I edit my form after creating it?",
@@ -35,9 +35,9 @@ const faqs = [
       "First, congratulations on your popularity! Second, nothing bad happens - we don't have usage caps that suddenly lock you out when you go viral. Though if you get so many responses that you crash our servers, I might show up at your door asking for a job. Your form clearly has better marketing than our entire platform!",
   },
   {
-    question: "Do I need technical knowledge to use Form Pilot?",
+    question: "Do I need technical knowledge to use Form Axis?",
     answer:
-      "If you can order pizza online, you're overqualified for using Form Pilot. No coding, no HTML, no CSS, no understanding of what those acronyms even mean. The most technical thing you'll do is click 'Create Form' and then try to convince yourself you're a tech genius afterward. We won't tell anyone how easy it actually was.",
+      "If you can order pizza online, you're overqualified for using Form Axis. No coding, no HTML, no CSS, no understanding of what those acronyms even mean. The most technical thing you'll do is click 'Create Form' and then try to convince yourself you're a tech genius afterward. We won't tell anyone how easy it actually was.",
   },
 ];
 
@@ -59,7 +59,7 @@ export function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto">
-            Everything you need to know about Form Pilot&apos;s AI-native
+            Everything you need to know about Form Axis&apos;s AI-native
             conversational forms. Can&apos;t find the answer you&apos;re looking
             for? Reach out to our team.
           </p>

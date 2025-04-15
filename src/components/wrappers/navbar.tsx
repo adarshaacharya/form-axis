@@ -58,7 +58,7 @@ export function NavBar() {
               <SheetHeader className="pb-6 border-b">
                 <SheetTitle className="flex items-center gap-2">
                   <LucideRocket className="h-5 w-5 text-orange-600" />
-                  <span>Form Pilot</span>
+                  <span>Form Axis</span>
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-1 mt-6">
@@ -90,7 +90,7 @@ export function NavBar() {
           </Dialog>
           <Link href="/" prefetch={true} className="flex items-center gap-2">
             <LucideRocket className="h-5 w-5 " />
-            <span className="font-semibold">Form Pilot</span>
+            <span className="font-semibold">Form Axis</span>
           </Link>
         </div>
 
@@ -98,7 +98,7 @@ export function NavBar() {
         <div className="hidden lg:flex items-center gap-2">
           <Link href="/" prefetch={true} className="flex items-center gap-2">
             <LucideRocket className="h-5 w-5 text-orange-400" />
-            <span className="font-semibold">Form Pilot</span>
+            <span className="font-semibold">Form Axis</span>
           </Link>
         </div>
 

@@ -8,7 +8,7 @@ import {
   Settings,
   LucideIcon,
   RocketIcon,
-  ArchiveIcon
+  ArchiveIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,10 +36,10 @@ const navItems: NavItem[] = [
     icon: Settings,
   },
   {
-    label : "Archives",
+    label: "Archives",
     href: "/dashboard/archives",
     icon: ArchiveIcon,
-  }
+  },
 ];
 
 export function DashboardSideBar() {
@@ -55,7 +55,7 @@ export function DashboardSideBar() {
             href="/"
           >
             <RocketIcon className="h-5 w-5 text-orange-400" />
-            <span>Form Pilot</span>
+            <span>Form Axis</span>
           </Link>
         </div>
 
@@ -67,8 +67,8 @@ export function DashboardSideBar() {
               href={item.href}
               className={clsx(
                 "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
-                pathname === item.href || 
-                (pathname.startsWith(item.href) && item.href !== "/dashboard")
+                pathname === item.href ||
+                  (pathname.startsWith(item.href) && item.href !== "/dashboard")
                   ? "bg-primary/10 text-primary hover:bg-primary/20"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
