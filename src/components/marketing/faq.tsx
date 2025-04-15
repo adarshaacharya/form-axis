@@ -10,34 +10,23 @@ import { motion } from "motion/react";
 
 const faqs = [
   {
-    question: "What makes Form Axis different from traditional forms?",
+    question: "Why should I use Form Axis instead of Google Forms?",
     answer:
-      "Form Axis creates AI-native conversational forms that don't make you feel like you're filling out a tax return from 1995. It's like the difference between texting your friend and filling out a government customs declaration form. Our chat interface means no more staring at checkboxes wondering if you're legally obligated to check 'Other' when none of the options apply!",
+      "Because you deserve better than a spreadsheet in disguise. Form Axis lets you create forms that feel like a conversation, not a pop quiz from your least favorite teacher.",
   },
   {
-    question: "Is Form Axis completely free to use?",
+    question: "Is Form Axis really AI-powered, or is it just a fancy buzzword?",
     answer:
-      "Yes, it's free! Well... unless my server bills and LLM costs skyrocket so high that I have to start selling my furniture. If you suddenly find me coding from a cardboard box with 'Will Program For Food' sign, then we might need to add a small fee. But for now, enjoy the free ride while my bank account still exists! 🚀",
+      "It's real AI. No smoke, no mirrors, and definitely no interns pretending to be chatbots. Our forms are powered by Gemini, not by someone frantically typing answers in the background.",
   },
   {
-    question: "How do I create a conversational form?",
-    answer:
-      "Just type out what you want to ask like you're texting a slightly dim but eager-to-please friend. Form Axis does the rest, transforming your casual questions into a conversation that flows naturally. No need for a PhD in UX design or spending hours aligning dropdown menus that nobody will read anyway!",
+    question: "Is Form Axis actually free?",
+    answer: `Free until my server bill hits like a meteor and I’m eating Wai Wai for breakfast, lunch, and dinner. When that  invoice lands, you might see a ‘Save My Soul’ button pop up. Till then, mooch away!`,
   },
   {
-    question: "Can I edit my form after creating it?",
+    question: "Can I use Form Axis if I have zero tech skills?",
     answer:
-      "Absolutely! Unlike that regrettable tattoo you got in college, our forms can be edited anytime. Change questions, switch answer types, or completely redesign your form whenever inspiration (or panic) strikes. We won't judge your 3 AM edits when you realize you forgot to ask the most important question.",
-  },
-  {
-    question: "What happens if my form gets too many responses?",
-    answer:
-      "First, congratulations on your popularity! Second, nothing bad happens - we don't have usage caps that suddenly lock you out when you go viral. Though if you get so many responses that you crash our servers, I might show up at your door asking for a job. Your form clearly has better marketing than our entire platform!",
-  },
-  {
-    question: "Do I need technical knowledge to use Form Axis?",
-    answer:
-      "If you can order pizza online, you're overqualified for using Form Axis. No coding, no HTML, no CSS, no understanding of what those acronyms even mean. The most technical thing you'll do is click 'Create Form' and then try to convince yourself you're a tech genius afterward. We won't tell anyone how easy it actually was.",
+      "If you can order pizza online, you’re overqualified for Form Axis. No coding, no tech bro nonsense, and no judgment if you still use Internet Explorer (well, maybe a little).",
   },
 ];
 
@@ -45,9 +34,7 @@ export function FAQ() {
   return (
     <section className="py-24 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Section Header */}
         <div className="text-center mb-16">
-          {/* Pill badge */}
           <div className="mx-auto w-fit rounded-full border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-900/30 px-4 py-1 mb-6">
             <div className="flex items-center gap-2 text-sm font-medium text-orange-900 dark:text-orange-200">
               <HelpCircle className="h-4 w-4" />
@@ -90,7 +77,7 @@ export function FAQ() {
                 "
               >
                 <AccordionTrigger className="hover:no-underline py-4 px-2">
-                  <span className="font-medium text-left text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
+                  <span className="font-semibold text-left text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
                     {faq.question}
                   </span>
                 </AccordionTrigger>
