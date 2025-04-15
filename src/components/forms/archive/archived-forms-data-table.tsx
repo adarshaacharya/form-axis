@@ -4,7 +4,6 @@ import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { MoreHorizontal, ArchiveRestore } from "lucide-react";
-import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,7 @@ import {
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import { Id } from "@/convex/_generated/dataModel";
-import { Form } from "@/types/forms";
+import { Form } from "@/lib/types";
 
 interface ArchivedFormsDataTableProps {
   forms: Form[];
@@ -62,7 +61,7 @@ export function ArchivedFormsDataTable({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Status" />
       ),
-      cell: ({ row }) => {
+      cell: ({}) => {
         return <Badge variant="outline">Archived</Badge>;
       },
     },

@@ -8,7 +8,7 @@ export const formGenerationPrompt = `
     # Guidelines
     Follow these guidelines carefully:
     1. Create a clear, concise, and engaging title and description for the form
-    2. Generate 5-10 highly relevant questions based on the user's prompt
+    2. Generate 5-7 highly relevant questions based on the user's prompt. Please ask only questions that are necessary and relevant to the form's purpose. Avoid unnecessary or redundant questions.
     3. Determine the most appropriate question type for each question:
        - text: For open-ended responses requiring sentences or paragraphs
        - multipleChoice: When users should select multiple options from a list
@@ -36,9 +36,8 @@ export const formGenerationPrompt = `
     - title: A concise, descriptive title for the form
     - description: A brief introduction explaining the form's purpose
     - questions: An array of question objects, each with:
-      - content: The question text
+      - content: The question text 
       - type: One of the question types listed above
-      - options: Array of string options (for multipleChoice/singleChoice questions only)
       - required: Boolean (true by default)
 
     Do not include any explanations, notes, or commentary in your response - only return the structured data.

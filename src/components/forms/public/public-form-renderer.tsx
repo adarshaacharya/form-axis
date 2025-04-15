@@ -7,10 +7,11 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Form, FormField } from "@/lib/types";
 
 interface PublicFormRendererProps {
-  form: any;
-  formFields: any[];
+  form: Form;
+  formFields: FormField[];
 }
 
 export default function PublicFormRenderer({

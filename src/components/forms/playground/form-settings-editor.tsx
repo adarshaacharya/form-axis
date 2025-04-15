@@ -10,21 +10,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Save } from "lucide-react";
+import { Form } from "@/lib/types";
 
-interface FormSettings {
-  title: string;
-  description?: string;
-  status: "draft" | "published" | "archived";
-  settings: {
-    allowAnonymous: boolean;
-    collectEmail: boolean;
-    maxResponses?: number;
-    expiresAt?: string;
-  };
-}
+type FormSettings = Pick<Form, "title" | "description" | "status" | "settings">;
 
 interface FormSettingsEditorProps {
-  form: any;
+  form: Form;
   onUpdate: (settings: FormSettings) => Promise<void>;
 }
 

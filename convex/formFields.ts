@@ -1,6 +1,52 @@
 import { mutation, query } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, Infer, v } from "convex/values";
 import { fieldTypeSchema } from "./schema";
+
+/**
+ * SCHEMAS
+ */
+
+const CreateFormFieldSchema = v.object({
+  formId: v.id("forms"),
+  order: v.number(),
+  type: fieldTypeSchema,
+  label: v.string(),
+  required: v.boolean(),
+  placeholder: v.optional(v.string()),
+  description: v.optional(v.string()),
+  validation: v.optional(
+    v.object({
+      minLength: v.optional(v.number()),
+      maxLength: v.optional(v.number()),
+      min: v.optional(v.number()),
+      max: v.optional(v.number()),
+    })
+  ),
+});
+export type CreateFormFieldArgs = Infer<typeof CreateFormFieldSchema>;
+
+export const UpdateFormFieldSchema = v.object({
+  fieldId: v.id("formFields"),
+  order: v.number(),
+  type: fieldTypeSchema,
+  label: v.string(),
+  required: v.boolean(),
+  placeholder: v.optional(v.string()),
+  description: v.optional(v.string()),
+  validation: v.optional(
+    v.object({
+      minLength: v.optional(v.number()),
+      maxLength: v.optional(v.number()),
+      min: v.optional(v.number()),
+      max: v.optional(v.number()),
+    })
+  ),
+});
+export type UpdateFormFieldArgs = Infer<typeof UpdateFormFieldSchema>;
+
+/**
+ * QUERIES / MUTATIONS
+ */
 
 // Get all form fields for a specific form
 export const getFormFields = query({
@@ -18,27 +64,11 @@ export const getFormFields = query({
 
 // Create a new form field
 export const createFormField = mutation({
-  args: {
-    formId: v.id("forms"),
-    order: v.number(),
-    type: fieldTypeSchema,
-    label: v.string(),
-    required: v.boolean(),
-    placeholder: v.optional(v.string()),
-    description: v.optional(v.string()),
-    validation: v.optional(
-      v.object({
-        minLength: v.optional(v.number()),
-        maxLength: v.optional(v.number()),
-        min: v.optional(v.number()),
-        max: v.optional(v.number()),
-      })
-    ),
-  },
+  args: CreateFormFieldSchema,
   handler: async (ctx, args) => {
     const form = await ctx.db.get(args.formId);
     if (!form) {
-      throw new Error("Form not found");
+      throw new ConvexError("Form not found");
     }
 
     const fieldId = await ctx.db.insert("formFields", {
@@ -52,7 +82,6 @@ export const createFormField = mutation({
       validation: args.validation,
     });
 
-    // Update the form's updatedAt timestamp
     await ctx.db.patch(args.formId, {
       updatedAt: new Date().toISOString(),
     });
@@ -63,31 +92,13 @@ export const createFormField = mutation({
 
 // Update an existing form field
 export const updateFormField = mutation({
-  args: {
-    fieldId: v.id("formFields"),
-    order: v.number(),
-    type: fieldTypeSchema,
-    label: v.string(),
-    required: v.boolean(),
-    placeholder: v.optional(v.string()),
-    description: v.optional(v.string()),
-    validation: v.optional(
-      v.object({
-        minLength: v.optional(v.number()),
-        maxLength: v.optional(v.number()),
-        min: v.optional(v.number()),
-        max: v.optional(v.number()),
-      })
-    ),
-  },
+  args: UpdateFormFieldSchema,
   handler: async (ctx, args) => {
-    // Verify that the field exists
     const field = await ctx.db.get(args.fieldId);
     if (!field) {
-      throw new Error("Field not found");
+      throw new ConvexError("Field not found");
     }
 
-    // Update the field
     await ctx.db.patch(args.fieldId, {
       order: args.order,
       type: args.type,
@@ -98,7 +109,6 @@ export const updateFormField = mutation({
       validation: args.validation,
     });
 
-    // Update the form's updatedAt timestamp
     await ctx.db.patch(field.formId, {
       updatedAt: new Date().toISOString(),
     });
@@ -113,16 +123,13 @@ export const deleteFormField = mutation({
     fieldId: v.id("formFields"),
   },
   handler: async (ctx, args) => {
-    // Verify that the field exists
     const field = await ctx.db.get(args.fieldId);
     if (!field) {
-      throw new Error("Field not found");
+      throw new ConvexError("Field not found");
     }
 
-    // Get the formId before deleting
     const formId = field.formId;
 
-    // Delete the field
     await ctx.db.delete(args.fieldId);
 
     // Get remaining fields to reorder them
@@ -139,7 +146,6 @@ export const deleteFormField = mutation({
       }
     }
 
-    // Update the form's updatedAt timestamp
     await ctx.db.patch(formId, {
       updatedAt: new Date().toISOString(),
     });

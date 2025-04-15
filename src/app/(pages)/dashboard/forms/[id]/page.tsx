@@ -16,12 +16,10 @@ export default function FormPage() {
   const router = useRouter();
   const formId = useParams().id as Id<"forms">;
 
-  // Fetch form data
   const form = useQuery(api.forms.getForm, { formId });
   const formFields = useQuery(api.formFields.getFormFields, { formId }) || [];
   const updateForm = useMutation(api.forms.updateForm);
 
-  // Loading state
   if (form === undefined) {
     return (
       <div className="py-8 px-4 space-y-8">
@@ -40,7 +38,6 @@ export default function FormPage() {
     );
   }
 
-  // Handle not found
   if (form === null) {
     notFound();
   }

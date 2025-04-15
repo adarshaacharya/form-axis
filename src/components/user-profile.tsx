@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SignOutButton, useUser } from "@clerk/nextjs";
-import { LogOut, Settings, Sparkles, User } from "lucide-react";
+import { LogOut, Settings, User } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 

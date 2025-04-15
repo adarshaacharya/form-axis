@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/card";
 import { FormFieldsEditor } from "./form-fields-editor";
 import { FormSettingsEditor } from "./form-settings-editor";
+import { Form, FormField } from "@/lib/types";
 
 interface FormEditorPanelProps {
-  form: any;
-  formFields: any[];
+  form: Form;
+  formFields: FormField[];
   activeTab: "fields" | "settings";
   formId: Id<"forms">;
 }
@@ -34,7 +35,9 @@ export function FormEditorPanel({
   const deleteFormField = useMutation(api.formFields.deleteFormField);
 
   // Handle form settings update
-  const handleUpdateSettings = async (settings: any) => {
+  const handleUpdateSettings = async (
+    settings: Pick<Form, "title" | "description" | "status" | "settings">
+  ) => {
     try {
       await updateForm({
         formId,
@@ -51,7 +54,18 @@ export function FormEditorPanel({
   };
 
   // Handle create form field
-  const handleCreateField = async (field: any) => {
+  const handleCreateField = async (
+    field: Pick<
+      FormField,
+      | "order"
+      | "type"
+      | "label"
+      | "required"
+      | "placeholder"
+      | "description"
+      | "validation"
+    >
+  ) => {
     try {
       await createFormField({
         formId,
@@ -71,7 +85,21 @@ export function FormEditorPanel({
   };
 
   // Handle update form field
-  const handleUpdateField = async (field: any) => {
+  const handleUpdateField = async (
+    field: Pick<
+      FormField,
+      | "_id"
+      | "order"
+      | "type"
+      | "label"
+      | "required"
+      | "placeholder"
+      | "description"
+      | "validation"
+    > & {
+      _id: Id<"formFields">;
+    }
+  ) => {
     try {
       await updateFormField({
         fieldId: field._id,
@@ -108,7 +136,7 @@ export function FormEditorPanel({
           <CardHeader className="pb-2">
             <CardTitle>Form Fields</CardTitle>
             <CardDescription>
-              Manage your form's fields and questions
+              Manage your form&apos;s fields and questions
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 overflow-y-auto pb-6 custom-scrollbar">
@@ -126,7 +154,7 @@ export function FormEditorPanel({
           <CardHeader className="pb-2">
             <CardTitle>Form Settings</CardTitle>
             <CardDescription>
-              Configure your form's basic settings
+              Configure your form&apos;s basic settings
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 overflow-y-auto pb-6 custom-scrollbar">

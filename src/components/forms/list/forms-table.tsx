@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { FormTableHeader } from "./form-table-header";
 import { FormDataTable } from "./form-data-table";
 import { ArchiveFormDialog } from "./archieve-form-dialog";
-import { Form } from "@/types/forms";
 
 export function FormsTable() {
   const forms = useQuery(api.forms.listForms) || [];
@@ -33,7 +32,6 @@ export function FormsTable() {
     setIsArchiveDialogOpen(false);
   };
 
-  // Find form title for the archive dialog
   const formToArchiveTitle = formToArchive
     ? forms.find((form) => form._id === formToArchive)?.title || "this form"
     : "this form";

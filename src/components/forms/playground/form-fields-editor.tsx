@@ -8,28 +8,17 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { EmptyState } from "./empty-state";
 import { FormFieldCard } from "./form-field-card";
-
-interface FormField {
-  _id?: Id<"formFields">;
-  formId: Id<"forms">;
-  order: number;
-  type: string;
-  label: string;
-  required: boolean;
-  placeholder?: string;
-  description?: string;
-  validation?: {
-    minLength?: number;
-    maxLength?: number;
-    min?: number;
-    max?: number;
-  };
-}
+import { FormField } from "@/lib/types";
 
 interface FormFieldsEditorProps {
   formId: Id<"forms">;
   fields: FormField[];
-  onCreateField: (field: Omit<FormField, "_id">) => Promise<void>;
+  onCreateField: (
+    field: Pick<
+      FormField,
+      "formId" | "order" | "type" | "label" | "required" | "placeholder"
+    >
+  ) => Promise<void>;
   onUpdateField: (field: FormField) => Promise<void>;
   onDeleteField: (fieldId: Id<"formFields">) => Promise<void>;
 }
@@ -44,7 +33,10 @@ export function FormFieldsEditor({
   const [editingField, setEditingField] = useState<string | null>(null);
 
   const handleAddField = () => {
-    const newField = {
+    const newField: Pick<
+      FormField,
+      "formId" | "order" | "type" | "label" | "required" | "placeholder"
+    > = {
       formId,
       order: fields.length,
       type: "shortText",

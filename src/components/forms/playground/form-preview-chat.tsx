@@ -7,17 +7,18 @@ import { MessageItem } from "./message-item";
 import { ChatInput } from "./chat-input";
 import { FormWelcome } from "./form-welcome";
 import { FormCompletion } from "./form-completion";
+import { FormField } from "@/lib/types";
 
 interface Message {
   id: string;
-  type: "system" | "user" | "thinking";
+  source: "system" | "user" | "thinking";
   content: string | React.ReactNode;
 }
 
 interface FormPreviewChatProps {
   title: string;
   description: string;
-  fields: any[];
+  fields: FormField[];
   onComplete?: (answers: Record<string, string>) => void;
   fullscreen?: boolean;
 }
@@ -44,31 +45,35 @@ export function FormPreviewChat({
       const initialMessages: Message[] = [
         {
           id: "intro",
-          type: "system",
+          source: "system",
           content: (
             <div className="space-y-2">
               <h3 className="font-medium text-lg">{title}</h3>
               {description && (
                 <p className="text-muted-foreground">{description}</p>
               )}
-              <p>Please answer the following questions. Let's begin!</p>
+              <p>Please answer the following questions. Let&apos;s begin!</p>
             </div>
           ),
         },
       ];
 
       if (fields.length > 0) {
-        initialMessages.push(createFieldMessage(fields[0]));
+        initialMessages.push({
+          ...createFieldMessage(fields[0]),
+          source: "system",
+        });
       }
 
       setMessages(initialMessages);
+      scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [title, description, fields, showWelcome]);
+  }, [title, description, fields, showWelcome, scrollRef]);
 
-  const createFieldMessage = (field: any) => {
+  const createFieldMessage = (field: FormField) => {
     return {
       id: `field-${field._id}`,
-      type: "system",
+      source: "system",
       content: (
         <div>
           <p>{field.label}</p>
@@ -91,7 +96,7 @@ export function FormPreviewChat({
       ...prev,
       {
         id: `answer-${currentField._id}`,
-        type: "user",
+        source: "user",
         content: userInput,
       },
     ]);
@@ -106,7 +111,7 @@ export function FormPreviewChat({
       ...prev,
       {
         id: `thinking-${Date.now()}`,
-        type: "thinking",
+        source: "thinking",
         content: "",
       },
     ]);
@@ -116,12 +121,15 @@ export function FormPreviewChat({
     setTimeout(() => {
       setIsThinking(false);
 
-      setMessages((prev) => prev.filter((m) => m.type !== "thinking"));
+      setMessages((prev) => prev.filter((m) => m.source !== "thinking"));
 
       if (nextIndex < fields.length) {
         setCurrentFieldIndex(nextIndex);
 
-        setMessages((prev) => [...prev, createFieldMessage(fields[nextIndex])]);
+        setMessages((prev) => [
+          ...prev,
+          { ...createFieldMessage(fields[nextIndex]), source: "system" },
+        ]);
       } else {
         setIsCompleted(true);
 
@@ -133,7 +141,7 @@ export function FormPreviewChat({
           ...prev,
           {
             id: "completion",
-            type: "system",
+            source: "system",
             content: (
               <div className="space-y-2">
                 <p className="font-medium">
@@ -184,9 +192,6 @@ export function FormPreviewChat({
         />
       ) : showCompletionScreen ? (
         <FormCompletion
-          title={title}
-          answers={answers}
-          fields={fields}
           onViewAnswers={handleReturnHome}
           fullscreen={fullscreen}
         />
@@ -200,7 +205,7 @@ export function FormPreviewChat({
               {messages.map((message) => (
                 <MessageItem
                   key={message.id}
-                  type={message.type}
+                  source={message.source}
                   content={message.content}
                 />
               ))}

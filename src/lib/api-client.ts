@@ -1,4 +1,4 @@
-import { FormGeneration } from "@/app/api/forms/generate/schema";
+import { FormGeneration } from "./schema";
 
 /**
  * Client-side function to generate form questions

@@ -3,8 +3,6 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
 
 interface FormWelcomeProps {
   title: string;

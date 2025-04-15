@@ -1,7 +1,7 @@
 import { formGenerationPrompt } from "@/lib/prompts/form-gen-prompt";
 import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
-import { FormGeneration, formGenerationSchema } from "./schema";
+import { FormGeneration, formGenerationSchema } from "@/lib/schema";
 
 /**
  * Generates form questions based on the provided prompt using Google's Gemini model
@@ -39,7 +39,7 @@ export async function generateFormQuestions(
       questions: formData.questions.map((q) => ({
         content: q.content,
         type: q.type,
-        required: q.required
+        required: q.required,
       })),
     };
   } catch (error) {

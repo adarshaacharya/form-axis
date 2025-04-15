@@ -26,23 +26,7 @@ import {
   Trash,
   X,
 } from "lucide-react";
-
-interface FormField {
-  _id?: Id<"formFields">;
-  formId: Id<"forms">;
-  order: number;
-  type: string;
-  label: string;
-  required: boolean;
-  placeholder?: string;
-  description?: string;
-  validation?: {
-    minLength?: number;
-    maxLength?: number;
-    min?: number;
-    max?: number;
-  };
-}
+import { FormField, FormFieldType } from "@/lib/types";
 
 interface FormFieldCardProps {
   field: FormField;
@@ -80,7 +64,7 @@ export function FormFieldCard({
     }
   };
 
-  const fieldTypeLabels: Record<string, string> = {
+  const fieldTypeLabels: Record<FormFieldType, string> = {
     shortText: "Short Text",
     longText: "Long Text",
     number: "Number",
@@ -170,7 +154,7 @@ export function FormFieldCard({
                 <Label htmlFor={`type-${field._id}`}>Field Type</Label>
                 <Select
                   value={editedField.type}
-                  onValueChange={(value) =>
+                  onValueChange={(value: FormFieldType) =>
                     setEditedField({ ...editedField, type: value })
                   }
                 >

@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, Github, RocketIcon, Sparkles } from "lucide-react";
+import { ArrowRight, Github, RocketIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { motion } from "motion/react";

@@ -63,7 +63,7 @@ export function UnarchiveFormDialog({
           </AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to restore{" "}
-            <span className="font-semibold">"{formTitle}"</span>? This will make
+            <span className="font-semibold">&quot;{formTitle}&quot;</span>? This will make
             the form visible in your forms list again as a draft.
           </AlertDialogDescription>
         </AlertDialogHeader>

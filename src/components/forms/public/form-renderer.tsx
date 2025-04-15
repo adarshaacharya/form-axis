@@ -7,15 +7,15 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Form, FormField } from "@/lib/types";
 
 interface FormRendererProps {
-  form: any;
-  formFields: any[];
+  form: Form;
+  formFields: FormField[];
 }
 
 export default function FormRenderer({ form, formFields }: FormRendererProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
 
   const submitResponse = useMutation(api.responses.submitResponse);
 
@@ -38,7 +38,6 @@ export default function FormRenderer({ form, formFields }: FormRendererProps) {
         respondentEmail: null, // Could be collected if needed
       });
 
-      setIsCompleted(true);
       toast.success("Form submitted successfully");
     } catch (error) {
       console.error("Error submitting form:", error);

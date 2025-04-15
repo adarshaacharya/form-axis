@@ -1,12 +1,16 @@
+/**
+ * I've commented the fieldType , since we only support chat based but we will implement different type of field in near future
+ */
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FormField } from "@/lib/types";
 import { Send } from "lucide-react";
 import { useState } from "react";
 
 interface ChatInputProps {
-  currentField: any;
+  currentField: FormField;
   currentFieldIndex: number;
   fieldsCount: number;
   onSubmit: (value: string) => void;

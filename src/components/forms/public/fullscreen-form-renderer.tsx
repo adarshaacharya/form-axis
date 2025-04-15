@@ -6,10 +6,11 @@ import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
 import { useState } from "react";
 import { FormPreviewChat } from "@/components/forms/playground/form-preview-chat";
+import { Form, FormField } from "@/lib/types";
 
 interface FullscreenFormRendererProps {
-  form: any;
-  formFields: any[];
+  form: Form;
+  formFields: FormField[];
 }
 
 export default function FullscreenFormRenderer({

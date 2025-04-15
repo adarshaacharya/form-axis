@@ -20,10 +20,10 @@ import {
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import { Id } from "@/convex/_generated/dataModel";
-import { Form } from "@/types/forms";
+import { Form } from "@/lib/types";
 
 interface FormDataTableProps {
-  forms: Form[];
+  forms: (Form & { responseCount: number })[];
   onRowClick: (formId: Id<"forms">) => void;
   onArchiveRequest: (formId: Id<"forms">, e: React.MouseEvent) => void;
 }
@@ -33,7 +33,7 @@ export function FormDataTable({
   onRowClick,
   onArchiveRequest,
 }: FormDataTableProps) {
-  const columns: ColumnDef<Form>[] = [
+  const columns: ColumnDef<Form & { responseCount: number }>[] = [
     {
       accessorKey: "title",
       header: ({ column }) => (

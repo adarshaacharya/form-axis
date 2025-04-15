@@ -1,13 +1,55 @@
-import { v } from "convex/values";
+import { ConvexError, Infer, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { fieldTypeSchema } from "./schema";
 
+/**
+ * Schemas
+ */
+
+export const QuestionSchema = v.object({
+  content: v.string(),
+  type: fieldTypeSchema,
+  required: v.boolean(),
+});
+export const CreateFormSchema = v.object({
+  title: v.string(),
+  description: v.string(),
+  questions: v.optional(v.array(QuestionSchema)),
+  originalPrompt: v.string(),
+});
+
+// export type CreateFormArgs = Infer<typeof CreateFormSchema>;
+
+export const UpdateFormSchema = v.object({
+  formId: v.id("forms"),
+  title: v.optional(v.string()),
+  description: v.optional(v.string()),
+  status: v.optional(
+    v.union(v.literal("draft"), v.literal("published"), v.literal("archived"))
+  ),
+  settings: v.optional(
+    v.object({
+      allowAnonymous: v.boolean(),
+      collectEmail: v.boolean(),
+      maxResponses: v.optional(v.number()),
+      expiresAt: v.optional(v.string()),
+    })
+  ),
+});
+
+export type UpdateFormArgs = Infer<typeof UpdateFormSchema>;
+
+/**
+ * Mutations
+ */
 export const listForms = query({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
-    return await ctx.db
+    if (!identity) throw new ConvexError("Not authenticated");
+
+    // Get all forms for this user
+    const forms = await ctx.db
       .query("forms")
       .withIndex("by_user", (q) => q.eq("userId", identity.subject))
       .filter((q) =>
@@ -17,6 +59,24 @@ export const listForms = query({
         )
       )
       .collect();
+
+    // For each form, count responses and add the count to the form object
+    const formsWithResponseCounts = await Promise.all(
+      forms.map(async (form) => {
+        // Count responses for this form
+        const responses = await ctx.db
+          .query("responses")
+          .withIndex("by_form", (q) => q.eq("formId", form._id))
+          .collect();
+
+        return {
+          ...form,
+          responseCount: responses.length,
+        };
+      })
+    );
+
+    return formsWithResponseCounts;
   },
 });
 
@@ -25,7 +85,7 @@ export const listAllForms = query({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
+    if (!identity) throw new ConvexError("Not authenticated");
     return await ctx.db
       .query("forms")
       .withIndex("by_user", (q) => q.eq("userId", identity.subject))
@@ -45,7 +105,7 @@ export const getForm = query({
 
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.subject !== form.userId) {
-      return null; // Return null instead of throwing for public routes
+      return null;
     }
 
     return form;
@@ -58,7 +118,6 @@ export const getPublicForm = query({
   handler: async (ctx, args) => {
     const form = await ctx.db.get(args.formId);
 
-    // Only return the form if it exists and is published
     if (!form || form.status !== "published") {
       return null;
     }
@@ -68,24 +127,11 @@ export const getPublicForm = query({
 });
 
 export const createForm = mutation({
-  args: {
-    title: v.string(),
-    description: v.string(),
-    questions: v.optional(
-      v.array(
-        v.object({
-          content: v.string(),
-          type: fieldTypeSchema,
-          required: v.boolean(),
-        })
-      )
-    ),
-    originalPrompt: v.string(),
-  },
+  args: CreateFormSchema,
   returns: v.string(),
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
+    if (!identity) throw new ConvexError("Not authenticated");
 
     const formId = await ctx.db.insert("forms", {
       title: args.title,
@@ -94,7 +140,7 @@ export const createForm = mutation({
       userId: identity.subject,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      status: "draft", // Changed from isPublished: false
+      status: "draft",
       settings: { allowAnonymous: true, collectEmail: false },
     });
 
@@ -132,28 +178,14 @@ export const createForm = mutation({
 });
 
 export const updateForm = mutation({
-  args: {
-    formId: v.id("forms"),
-    title: v.optional(v.string()),
-    description: v.optional(v.string()),
-    status: v.optional(
-      v.union(v.literal("draft"), v.literal("published"), v.literal("archived"))
-    ),
-    settings: v.optional(
-      v.object({
-        allowAnonymous: v.boolean(),
-        collectEmail: v.boolean(),
-        maxResponses: v.optional(v.number()),
-        expiresAt: v.optional(v.string()),
-      })
-    ),
-  },
+  args: UpdateFormSchema,
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
+    if (!identity) throw new ConvexError("Not authenticated");
     const form = await ctx.db.get(args.formId);
-    if (!form) throw new Error("Form not found");
-    if (form.userId !== identity.subject) throw new Error("Not authorized");
+    if (!form) throw new ConvexError("Form not found");
+    if (form.userId !== identity.subject)
+      throw new ConvexError("Not authorized");
     await ctx.db.patch(args.formId, {
       ...(args.title && { title: args.title }),
       ...(args.description !== undefined && { description: args.description }),
@@ -168,10 +200,11 @@ export const archieveForm = mutation({
   args: { formId: v.id("forms") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
+    if (!identity) throw new ConvexError("Not authenticated");
     const form = await ctx.db.get(args.formId);
-    if (!form) throw new Error("Form not found");
-    if (form.userId !== identity.subject) throw new Error("Not authorized");
+    if (!form) throw new ConvexError("Form not found");
+    if (form.userId !== identity.subject)
+      throw new ConvexError("Not authorized");
     await ctx.db.patch(args.formId, { status: "archived" });
   },
 });
@@ -180,7 +213,7 @@ export const listArchivedForms = query({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
+    if (!identity) throw new ConvexError("Not authenticated");
     return await ctx.db
       .query("forms")
       .withIndex("by_user", (q) => q.eq("userId", identity.subject))
@@ -193,10 +226,11 @@ export const unArchiveForm = mutation({
   args: { formId: v.id("forms") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
+    if (!identity) throw new ConvexError("Not authenticated");
     const form = await ctx.db.get(args.formId);
-    if (!form) throw new Error("Form not found");
-    if (form.userId !== identity.subject) throw new Error("Not authorized");
+    if (!form) throw new ConvexError("Form not found");
+    if (form.userId !== identity.subject)
+      throw new ConvexError("Not authorized");
     await ctx.db.patch(args.formId, {
       status: "draft",
       updatedAt: new Date().toISOString(),

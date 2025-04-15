@@ -6,10 +6,11 @@ import { FormPreviewPanel } from "@/components/forms/playground/form-preview-pan
 import { ResponsesList } from "@/components/forms/responses/responses-list";
 import { Id } from "@/convex/_generated/dataModel";
 import { useState } from "react";
+import { Form, FormField } from "@/lib/types";
 
 interface FormTabsProps {
-  form: any;
-  formFields: any[];
+  form: Form;
+  formFields: FormField[];
   formId: Id<"forms">;
 }
 

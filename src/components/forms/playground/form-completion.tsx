@@ -13,15 +13,12 @@ import {
 } from "@/components/ui/card";
 
 interface FormCompletionProps {
-  title: string;
-  answers: Record<string, string>;
-  fields: any[];
-  onViewAnswers: () => void; 
+  onViewAnswers: () => void;
   fullscreen?: boolean;
 }
 
 export function FormCompletion({
-  onViewAnswers, 
+  onViewAnswers,
   fullscreen = false,
 }: FormCompletionProps) {
   return (
@@ -44,7 +41,7 @@ export function FormCompletion({
             >
               <CheckCircle className="h-10 w-10 text-primary" />
             </motion.div>
-            
+
             <CardTitle className="text-2xl sm:text-3xl font-bold">
               Thank You!
             </CardTitle>
@@ -60,11 +57,7 @@ export function FormCompletion({
           </CardContent>
 
           <CardFooter className="flex justify-center pt-2">
-            <Button 
-              onClick={onViewAnswers} 
-              variant="default"
-              className="px-6"
-            >
+            <Button onClick={onViewAnswers} variant="default" className="px-6">
               Return to Home
             </Button>
           </CardFooter>

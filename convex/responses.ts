@@ -1,20 +1,35 @@
-import { v } from "convex/values";
+import { Infer, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import { Id } from "./_generated/dataModel";
 
+/**
+ * Schemas
+ */
+export const CreateResponseSchema = v.object({
+  formId: v.id("forms"),
+  answers: v.array(
+    v.object({
+      fieldId: v.id("formFields"),
+      value: v.union(v.string(), v.number(), v.null()),
+    })
+  ),
+  respondentEmail: v.optional(v.union(v.string(), v.null())),
+});
+export type CreateResponseArgs = Infer<typeof CreateResponseSchema>;
+
+/**
+ * Mutations / Queries
+ */
 // Get all responses for a form
 export const getFormResponses = query({
   args: {
     formId: v.id("forms"),
   },
   handler: async (ctx, args) => {
-    // Get user identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Not authenticated");
     }
 
-    // Verify form ownership
     const form = await ctx.db.get(args.formId);
     if (!form) {
       return [];
@@ -24,7 +39,6 @@ export const getFormResponses = query({
       throw new Error("Not authorized to view responses");
     }
 
-    // Get responses
     const responses = await ctx.db
       .query("responses")
       .withIndex("by_form", (q) => q.eq("formId", args.formId))
@@ -37,16 +51,7 @@ export const getFormResponses = query({
 
 // Submit a response to a form
 export const submitResponse = mutation({
-  args: {
-    formId: v.id("forms"),
-    answers: v.array(
-      v.object({
-        fieldId: v.id("formFields"),
-        value: v.union(v.string(), v.number(), v.null()),
-      })
-    ),
-    respondentEmail: v.optional(v.union(v.string(), v.null())),
-  },
+  args: CreateResponseSchema,
   handler: async (ctx, args) => {
     const form = await ctx.db.get(args.formId);
     if (!form) {
@@ -147,19 +152,18 @@ export const deleteResponse = mutation({
   },
 });
 
-// Get analytics for a form
+
+// Get form analytics
 export const getFormAnalytics = query({
   args: {
     formId: v.id("forms"),
   },
   handler: async (ctx, args) => {
-    // Get user identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Not authenticated");
     }
 
-    // Verify form ownership
     const form = await ctx.db.get(args.formId);
     if (!form) {
       throw new Error("Form not found");
@@ -169,19 +173,16 @@ export const getFormAnalytics = query({
       throw new Error("Not authorized to view analytics");
     }
 
-    // Get all responses for this form
     const responses = await ctx.db
       .query("responses")
       .withIndex("by_form", (q) => q.eq("formId", args.formId))
       .collect();
 
-    // Get form fields
     const formFields = await ctx.db
       .query("formFields")
       .withIndex("by_form", (q) => q.eq("formId", args.formId))
       .collect();
 
-    // Calculate completion rate
     const totalFields = formFields.length;
     let totalAnsweredQuestions = 0;
     let totalQuestionsPossible = 0;

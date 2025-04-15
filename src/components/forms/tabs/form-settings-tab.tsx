@@ -1,22 +1,34 @@
 "use client";
 
-import { useState } from "react";
 import { toast } from "sonner";
-import { Switch } from "@/components/ui/switch";
-import { updateForm } from "@/convex/forms";
 
-export function FormSettingsTab({ form, formId }) {
-  const [isPublished, setIsPublished] = useState(form.status === "published");
+import { Form } from "@/lib/types";
+import { Id } from "@/convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { PublishFormButton } from "../publish/publish-form-button";
 
-  const handlePublishToggle = async (publishState: boolean) => {
+type Props = {
+  form: Form;
+  formId: Id<"forms">;
+};
+
+export function FormSettingsTab({ form, formId }: Props) {
+  const updateForm = useMutation(api.forms.updateForm);
+
+  const handlePublishToggle = async () => {
     try {
+      const newStatus = form.status === "published" ? "draft" : "published";
+
       await updateForm({
         formId,
-        status: publishState ? "published" : "draft",
+        status: newStatus,
       });
-      setIsPublished(publishState);
+
       toast.success(
-        publishState ? "Form published successfully!" : "Form unpublished"
+        newStatus === "published"
+          ? "Form published successfully! It's now accessible to the public."
+          : "Form unpublished. It's now in draft mode."
       );
     } catch (error) {
       console.error("Error updating form status:", error);

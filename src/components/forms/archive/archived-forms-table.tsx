@@ -7,7 +7,6 @@ import { Id } from "@/convex/_generated/dataModel";
 import { ArchivedFormsHeader } from "./archived-forms-header";
 import { ArchivedFormsDataTable } from "./archived-forms-data-table";
 import { UnarchiveFormDialog } from "./unarchive-form-dialog";
-import { Form } from "@/types/forms";
 
 export function ArchivedFormsTable() {
   const archivedForms = useQuery(api.forms.listArchivedForms) || [];

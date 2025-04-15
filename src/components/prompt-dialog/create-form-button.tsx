@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { FormGeneration } from "@/app/api/forms/generate/schema";
+import { FormGeneration } from "@/lib/schema";
 
 type Props = {
   label?: string;

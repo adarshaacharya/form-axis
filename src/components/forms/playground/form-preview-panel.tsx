@@ -10,10 +10,11 @@ import {
 import { FormPreviewChat } from "./form-preview-chat";
 import { motion } from "motion/react";
 import Link from "next/link";
+import { Form, FormField } from "@/lib/types";
 
 interface FormPreviewPanelProps {
-  form: any;
-  formFields: any[];
+  form: Form;
+  formFields: FormField[];
 }
 
 export function FormPreviewPanel({ form, formFields }: FormPreviewPanelProps) {

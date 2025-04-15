@@ -3,9 +3,10 @@
 import { format } from "date-fns";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { Response } from "@/lib/types";
 
 interface ResponseItemProps {
-  response: any;
+  response: Response;
   isSelected: boolean;
   onClick: () => void;
 }
