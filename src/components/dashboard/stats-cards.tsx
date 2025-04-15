@@ -2,6 +2,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, MessageSquare, Activity, TrendingUp } from "lucide-react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export interface StatCardProps {
   title: string;
@@ -26,36 +28,43 @@ export function StatCard({ title, value, subtitle, icon }: StatCardProps) {
 }
 
 export function StatsCards() {
-  const stats = [
+  const stats = useQuery(api.stats.getOverallStats, {}) ?? {
+    formCount: 0,
+    responseCount: 0,
+    completionRate: 0,
+    avgResponseTime: "-",
+  };
+
+  const cards = [
     {
       title: "Total Forms",
-      value: "8",
-      subtitle: "+3 from last month",
+      value: stats.formCount,
+      subtitle: `+${stats.formCount} from last month`,
       icon: <FileText className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Total Responses",
-      value: "124",
-      subtitle: "+22% increase",
+      value: stats.responseCount,
+      subtitle: `+100% increase`,
       icon: <MessageSquare className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Completion Rate",
-      value: "93.4%",
-      subtitle: "+15.2% from traditional forms",
+      value: `100%`,
+      subtitle: `+80% from traditional forms`,
       icon: <Activity className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Avg. Response Time",
-      value: "2m 10s",
-      subtitle: "-40% vs standard forms",
+      value: stats.avgResponseTime,
+      subtitle: `0% vs standard forms`,
       icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
     },
   ];
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {stats.map((stat, index) => (
+      {cards.map((stat, index) => (
         <StatCard
           key={index}
           title={stat.title}

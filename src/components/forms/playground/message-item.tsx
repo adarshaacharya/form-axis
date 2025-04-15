@@ -21,9 +21,9 @@ export function MessageItem({ source, content }: MessageItemProps) {
     >
       {source === "system" || source === "thinking" ? (
         <Avatar className="h-8 w-8 mt-0.5 border bg-primary/10">
-          <AvatarFallback className="text-primary text-xs font-medium">
-            AI
-          </AvatarFallback>
+            <AvatarFallback className="text-primary text-xs font-medium">
+            <Bot className="h-4 w-4" />
+            </AvatarFallback>
           <AvatarImage>
             <Bot className="h-4 w-4 text-primary" />
           </AvatarImage>

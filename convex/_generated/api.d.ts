@@ -11,6 +11,7 @@
 import type * as formFields from "../formFields.js";
 import type * as forms from "../forms.js";
 import type * as responses from "../responses.js";
+import type * as stats from "../stats.js";
 import type * as users from "../users.js";
 
 import type {
@@ -31,6 +32,7 @@ declare const fullApi: ApiFromModules<{
   formFields: typeof formFields;
   forms: typeof forms;
   responses: typeof responses;
+  stats: typeof stats;
   users: typeof users;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
