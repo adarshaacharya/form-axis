@@ -59,7 +59,7 @@ export function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto">
-            Everything you need to know about Form Pilot's AI-native
+            Everything you need to know about Form Pilot&apos;s AI-native
             conversational forms. Can&apos;t find the answer you&apos;re looking
             for? Reach out to our team.
           </p>

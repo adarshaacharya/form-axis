@@ -63,7 +63,7 @@ export function ArchiveFormDialog({
           </AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to archive{" "}
-            <span className="font-semibold">"{formTitle}"</span>? This form will
+            <span className="font-semibold">&quot;{formTitle}&quot;</span>? This form will
             be removed from your forms list but its data will be preserved.
           </AlertDialogDescription>
         </AlertDialogHeader>

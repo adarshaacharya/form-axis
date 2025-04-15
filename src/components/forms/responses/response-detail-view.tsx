@@ -13,15 +13,9 @@ import { Badge } from "@/components/ui/badge";
 
 interface ResponseDetailViewProps {
   responseId: Id<"responses">;
-  formId: Id<"forms">;
-  totalResponses: number;
 }
 
-export function ResponseDetailView({
-  responseId,
-  formId,
-  totalResponses,
-}: ResponseDetailViewProps) {
+export function ResponseDetailView({ responseId }: ResponseDetailViewProps) {
   const responseDetails = useQuery(api.responses.getResponseDetails, {
     responseId,
   });

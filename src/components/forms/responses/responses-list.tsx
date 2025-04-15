@@ -5,19 +5,10 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
-import {
-  InboxIcon,
-  Share2,
-  BarChart,
-  MessageSquare,
-  TrendingUp,
-} from "lucide-react";
+import { InboxIcon, BarChart, MessageSquare, TrendingUp } from "lucide-react";
 import { motion } from "motion/react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ResponseDetailView } from "./response-detail-view";
@@ -163,11 +154,7 @@ export function ResponsesList({ formId }: ResponsesListProps) {
         {/* Response detail with analytics - wider right pane (80% width) */}
         <div className="md:col-span-4">
           {selectedResponseId ? (
-            <ResponseDetailView
-              responseId={selectedResponseId}
-              formId={formId}
-              totalResponses={responses.length}
-            />
+            <ResponseDetailView responseId={selectedResponseId} />
           ) : (
             <Card className="h-full flex items-center justify-center text-center">
               <CardContent>

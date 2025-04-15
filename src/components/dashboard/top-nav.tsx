@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { UserProfile } from "@/components/user-profile";
 import { MenuIcon } from "lucide-react";
-import { Banknote, Folder, HomeIcon, Settings } from "lucide-react";
+import { HomeIcon, Settings } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
 

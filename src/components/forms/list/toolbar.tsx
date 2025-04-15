@@ -20,13 +20,6 @@ const statuses = [
   { label: "Archived", value: "archived" },
 ];
 
-const priorities = [
-  { label: "All", value: "" },
-  { label: "High", value: "high" },
-  { label: "Medium", value: "medium" },
-  { label: "Low", value: "low" },
-];
-
 export function FormsTableToolbar<TData>({
   table,
   showViewOptions,

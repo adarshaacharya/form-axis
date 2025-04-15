@@ -1,7 +1,4 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { fetchQuery } from "convex/nextjs";
-import { NextResponse } from "next/server";
-import { api } from "@/convex/_generated/api";
 
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
