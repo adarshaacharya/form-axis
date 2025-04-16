@@ -94,7 +94,7 @@ export function ChatInput({
   if (!currentField) return null;
 
   return (
-    <div className="border-t p-3">
+    <div className="p-3">
       <div className="flex items-center gap-2">
         {currentField.type === "shortText" && (
           <Input

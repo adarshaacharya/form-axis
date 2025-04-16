@@ -49,8 +49,8 @@ export default function FullscreenFormRenderer({
   };
 
   return (
-    <div className="h-[calc(100vh-69px)] w-full flex bg-background/30">
-      <div className="hidden lg:block lg:w-1/5 bg-muted/20"></div>
+    <div className="h-[calc(100vh-69px)] w-full flex">
+      <div className="hidden lg:block lg:w-1/5 "></div>
 
       <div className="w-full lg:w-3/5 h-full flex flex-col overflow-hidden">
         <FormPreviewChat
@@ -62,7 +62,7 @@ export default function FullscreenFormRenderer({
         />
       </div>
 
-      <div className="hidden lg:block lg:w-1/5 bg-muted/20"></div>
+      <div className="hidden lg:block lg:w-1/5 "></div>
     </div>
   );
 }

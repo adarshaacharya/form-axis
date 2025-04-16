@@ -213,7 +213,7 @@ export function FormPreviewChat({
           </div>
 
           {!isCompleted && currentField && (
-            <div className="border-t border-border/30 py-3 px-4 ">
+            <div className="border-t border-border/30 py-3 px-4">
               <ChatInput
                 currentField={currentField}
                 currentFieldIndex={currentFieldIndex}
