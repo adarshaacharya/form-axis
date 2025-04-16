@@ -67,7 +67,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 If you find Form Axis valuable and would like to support its continued development, please consider:
 
 - Sponsoring project
-- Reaching out for consulting or custom implementation at <a href="mailto:adarshaofficial@gmail.com">adarshaofficial@gmail.com</a>
+- Reaching out for consulting or custom implementation at <a href="mailto:hi@adarsha.dev">hi@adarsha.dev</a>
 - Sharing Form Axis with your network
 
 Your support helps maintain this project and develop new features!

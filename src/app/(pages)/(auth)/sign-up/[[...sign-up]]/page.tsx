@@ -7,7 +7,7 @@ export default function SignUpPage() {
     <PageWrapper>
       <div className="flex min-w-screen justify-center my-[5rem]">
         <SignUp
-          fallbackRedirectUrl="/"
+          fallbackRedirectUrl="/dashboard"
           signInFallbackRedirectUrl="/dashboard"
         />
       </div>
