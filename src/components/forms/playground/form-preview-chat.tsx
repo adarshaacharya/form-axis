@@ -8,6 +8,7 @@ import { ChatInput } from "./chat-input";
 import { FormWelcome } from "./form-welcome";
 import { FormCompletion } from "./form-completion";
 import { FormField } from "@/lib/types";
+import { formatChatDate } from "./utils/utils";
 
 interface Message {
   id: string;
@@ -21,6 +22,7 @@ interface FormPreviewChatProps {
   fields: FormField[];
   onComplete?: (answers: Record<string, string>) => void;
   fullscreen?: boolean;
+  onProgressChange?: (progress: number) => void;
 }
 
 export function FormPreviewChat({
@@ -29,6 +31,7 @@ export function FormPreviewChat({
   fields,
   onComplete,
   fullscreen = false,
+  onProgressChange,
 }: FormPreviewChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
@@ -52,7 +55,10 @@ export function FormPreviewChat({
               {description && (
                 <p className="text-muted-foreground">{description}</p>
               )}
-              <p>Please answer the following questions. Let&apos;s begin!</p>
+              <p>
+                Please answer the following {fields.length} question
+                {fields.length !== 1 ? "s" : ""}. Let&apos;s begin!
+              </p>
             </div>
           ),
         },
@@ -69,6 +75,17 @@ export function FormPreviewChat({
       scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [title, description, fields, showWelcome, scrollRef]);
+
+  useEffect(() => {
+    if (fields.length === 0) return;
+
+    const progressValue = Math.round((currentFieldIndex / fields.length) * 100);
+    onProgressChange?.(progressValue);
+
+    if (isCompleted) {
+      onProgressChange?.(100);
+    }
+  }, [currentFieldIndex, fields.length, isCompleted, onProgressChange]);
 
   const createFieldMessage = (field: FormField) => {
     return {
@@ -92,15 +109,22 @@ export function FormPreviewChat({
 
     const currentField = fields[currentFieldIndex];
 
+    // Format date if the field is a calendar field
+    let displayValue = userInput;
+    if (currentField.type === "calendar" && userInput) {
+      displayValue = formatChatDate(userInput);
+    }
+
     setMessages((prev) => [
       ...prev,
       {
         id: `answer-${currentField._id}`,
         source: "user",
-        content: userInput,
+        content: displayValue, // Use the formatted display value
       },
     ]);
 
+    // Still store the original ISO string in answers for database submission
     setAnswers((prev) => ({
       ...prev,
       [currentField._id as string]: userInput,

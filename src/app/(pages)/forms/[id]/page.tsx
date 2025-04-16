@@ -6,9 +6,9 @@ import FullscreenFormRenderer from "@/components/forms/public/fullscreen-form-re
 import { BlankPage } from "@/components/fallbacks/blank-page";
 
 interface FormPageProps {
-  params: Promise<{
+  params: {
     id: string;
-  }>;
+  };
 }
 
 // Generate metadata for the page
@@ -17,7 +17,7 @@ export async function generateMetadata({
 }: FormPageProps): Promise<Metadata> {
   try {
     const form = await fetchQuery(api.forms.getPublicForm, {
-      formId: (await params).id as Id<"forms">,
+      formId: params.id as Id<"forms">,
     });
 
     if (!form) {
@@ -40,7 +40,7 @@ export async function generateMetadata({
 }
 
 export default async function FormPage({ params }: FormPageProps) {
-  const formId = (await params).id as Id<"forms">;
+  const formId = params.id as Id<"forms">;
 
   try {
     const form = await fetchQuery(api.forms.getPublicForm, { formId });

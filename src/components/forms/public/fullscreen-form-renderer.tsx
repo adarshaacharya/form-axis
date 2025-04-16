@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { FormPreviewChat } from "@/components/forms/playground/form-preview-chat";
 import { Form, FormField } from "@/lib/types";
+import { FormProgressBar } from "./form-progress-bar";
 
 interface FullscreenFormRendererProps {
   form: Form;
@@ -18,12 +19,14 @@ export default function FullscreenFormRenderer({
   formFields,
 }: FullscreenFormRendererProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [progress, setProgress] = useState(0);
   const submitResponse = useMutation(api.responses.submitResponse);
 
   const handleFormSubmit = async (answers: Record<string, string>) => {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
+    setProgress(100); // Set to 100% when form is complete
 
     try {
       const formattedAnswers = Object.entries(answers).map(
@@ -48,21 +51,33 @@ export default function FullscreenFormRenderer({
     }
   };
 
-  return (
-    <div className="h-[calc(100vh-69px)] w-full flex">
-      <div className="hidden lg:block lg:w-1/5 "></div>
+  const handleProgressUpdate = (newProgress: number) => {
+    setProgress(newProgress);
+  };
 
-      <div className="w-full lg:w-3/5 h-full flex flex-col overflow-hidden">
-        <FormPreviewChat
-          title={form.title}
-          description={form.description || ""}
-          fields={formFields}
-          onComplete={handleFormSubmit}
-          fullscreen={true}
-        />
+  return (
+    <div className="min-h-screen flex flex-col">
+      {/* Fixed progress bar at the top */}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <FormProgressBar progress={progress} />
       </div>
 
-      <div className="hidden lg:block lg:w-1/5 "></div>
+      <div className="h-[calc(100vh-69px)] w-full flex pt-1">
+        <div className="hidden lg:block lg:w-1/5"></div>
+
+        <div className="w-full lg:w-3/5 h-full flex flex-col overflow-hidden">
+          <FormPreviewChat
+            title={form.title}
+            description={form.description || ""}
+            fields={formFields}
+            onComplete={handleFormSubmit}
+            fullscreen={true}
+            onProgressChange={handleProgressUpdate}
+          />
+        </div>
+
+        <div className="hidden lg:block lg:w-1/5"></div>
+      </div>
     </div>
   );
 }
