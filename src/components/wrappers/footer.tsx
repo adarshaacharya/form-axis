@@ -5,7 +5,7 @@ export function Footer() {
         © {new Date().getFullYear()} Form Axis. All rights reserved.
       </p>
       <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-        Made with ❤️ by{" "}
+        Built by{" "}
         <a
           href="https://adarsha.dev"
           target="_blank"

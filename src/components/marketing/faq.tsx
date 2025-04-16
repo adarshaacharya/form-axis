@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { motion } from "motion/react";
+import { ShinyTag } from "./components/shiny-tag";
 
 const faqs = [
   {
@@ -36,10 +37,10 @@ export function FAQ() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <div className="mx-auto w-fit rounded-full border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-900/30 px-4 py-1 mb-6">
-            <div className="flex items-center gap-2 text-sm font-medium text-orange-900 dark:text-orange-200">
+            <ShinyTag>
               <HelpCircle className="h-4 w-4" />
               <span>FAQ</span>
-            </div>
+            </ShinyTag>
           </div>
 
           <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-orange-800 to-gray-900 dark:from-white dark:via-orange-300 dark:to-white pb-2">

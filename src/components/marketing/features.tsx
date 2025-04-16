@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { MessageSquare, Sparkles, Link } from "lucide-react";
+import { MessageSquare, Sparkles, Link, BrainIcon } from "lucide-react";
 import { ChatAnimation } from "./chat-animation";
+import { ShinyTag } from "./components/shiny-tag";
 
 const features = [
   {
@@ -29,7 +30,6 @@ export function Features() {
   return (
     <section className="py-24 overflow-hidden bg-white dark:bg-black text-gray-900 dark:text-white">
       <div className="max-w-6xl mx-auto px-4 relative">
-        {/* Section header - Updated to left alignment */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -37,9 +37,13 @@ export function Features() {
           viewport={{ once: true }}
           className="md:max-w-xl mb-16"
         >
-          <span className="inline-flex items-center rounded-full bg-primary/10 dark:bg-orange-600/20 px-3 py-1 text-sm font-medium text-primary dark:text-orange-500 mb-2">
-            Human-Centered Design
-          </span>
+          <div className="w-fit rounded-full border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-900/30 px-4 py-1 mb-6">
+            <ShinyTag>
+              <BrainIcon className="h-4 w-4" />
+                <span>Human-centric Design</span>
+            </ShinyTag>
+          </div>
+
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-primary to-gray-900 dark:from-white dark:via-orange-300 dark:to-white mb-4">
             Forms That Feel Like Conversations
           </h2>

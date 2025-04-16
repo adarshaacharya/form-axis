@@ -3,6 +3,7 @@ import { ArrowRight, Github, LucideFileAxis3D } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { motion } from "motion/react";
+import { ShinyTag } from "./components/shiny-tag";
 
 export function HeroSection() {
   return (
@@ -23,10 +24,10 @@ export function HeroSection() {
           transition={{ duration: 0.5 }}
           className="mx-auto w-fit rounded-full border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-900/30 px-4 py-1 mb-6"
         >
-          <div className="flex items-center gap-2 text-sm font-medium text-orange-900 dark:text-orange-200">
+          <ShinyTag>
             <LucideFileAxis3D className="h-4 w-4" />
             <span>AI-native Forms</span>
-          </div>
+          </ShinyTag>
         </motion.div>
 
         {/* Main heading */}
