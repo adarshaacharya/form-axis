@@ -14,7 +14,7 @@ import Link from "next/link";
 export function QuickActions() {
   const actions = [
     {
-      label: "Create Form",
+      label: "Generate Form",
       href: "/dashboard/forms",
       icon: <FileText className="h-4 w-4" />,
     },

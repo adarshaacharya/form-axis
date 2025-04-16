@@ -78,7 +78,7 @@ export default function CreateFormButton({ label }: Props) {
     <>
       <Button onClick={() => setShowPromptModal(true)} className="gap-2">
         <Plus className="h-4 w-4" />
-        {label || "Create Form"}
+        {label || "Generate Form"}
       </Button>
 
       <AddPromptModal

@@ -133,6 +133,7 @@ function FormRowActions({ form, onArchiveRequest }: FormRowActionsProps) {
   const copyShareLink = (formId: Id<"forms">) => {
     const shareLink = `${window.location.origin}/forms/${formId}`;
     navigator.clipboard.writeText(shareLink);
+
     toast.success("Share link copied to clipboard!", {
       description: "You can now share this link with others.",
     });
@@ -172,7 +173,13 @@ function FormRowActions({ form, onArchiveRequest }: FormRowActionsProps) {
           <Pencil className="mr-2 h-4 w-4" />
           Edit
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => copyShareLink(form._id)}>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+
+            copyShareLink(form._id);
+          }}
+        >
           <CopyIcon className="mr-2 h-4 w-4" />
           Copy Share Link
         </DropdownMenuItem>
