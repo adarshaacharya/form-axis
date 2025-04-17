@@ -18,9 +18,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Form Axis",
+  title: "Form Axis | AI-Powered Form Builder",
   description:
     "Create forms by simply writing prompts. Share a link and let users answer naturally through a chat interface.",
+  keywords: "AI, forms, chat interface, user experience",
+  authors: [{ name: "Adarsha Acharya", url: "https://adarsha.dev" }],
+  creator: "Adarsha Acharya",
+  openGraph: {
+    title: "Form Axis | AI-Powered Form Builder",
+    description:
+      "Create forms by simply writing prompts. Share a link and let users answer naturally through a chat interface.",
+    url: "https://formaxis.dev",
+    siteName: "Form Axis",
+  },
 };
 
 export default function RootLayout({

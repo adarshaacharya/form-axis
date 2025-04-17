@@ -1,4 +1,4 @@
-import { GithubIcon } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 
 export function Footer() {
   return (
@@ -37,9 +37,9 @@ export function Footer() {
               href="https://github.com/adarshaacharya/form-axis"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-500 text-sm underline hover:text-orange-600 dark:hover:text-orange-600 transition-colors"
+              className="text-gray-600 dark:text-gray-500 text-sm underline hover:text-gray-300 dark:hover:text-gray-300 transition-colors"
             >
-              <GithubIcon className="h-5 w-5 inline-block mr-1" />
+              <SiGithub className="h-5 w-5 inline-block mr-1" />
             </a>
           </div>
         </div>

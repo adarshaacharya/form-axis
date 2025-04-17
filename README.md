@@ -52,7 +52,19 @@ pnpm install
 
 - Create a `.env` file in the root directory and copy the contents of `.env.example` into it. Make sure you have convex, clerk credentials set up properly.
 
-4. Run app using `pnpm dev`
+Please refer to the [Convex with clerk](https://docs.convex.dev/auth/clerk) and [Clerk with convex](https://clerk.com/docs/integrations/databases/convex) documentation for setting up your credentials.
+
+4. First run convex dev server
+
+```bash
+npx convex dev
+```
+
+5. In another terminal, run the Next.js development server
+
+```bash
+pnpm dev
+```
 
 ## Contributing
 

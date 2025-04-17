@@ -1,9 +1,10 @@
 "use client";
-import { ArrowRight, Github, LucideFileAxis3D } from "lucide-react";
+import { ArrowRight, LucideFileAxis3D } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { motion } from "motion/react";
 import { ShinyTag } from "./components/shiny-tag";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 
 export function HeroSection() {
   return (
@@ -11,13 +12,11 @@ export function HeroSection() {
       className="relative flex flex-col items-center justify-center py-20"
       aria-label="Form Axis Hero"
     >
-      {/* Background gradient */}
       <div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-black bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-orange-400 dark:bg-orange-500 opacity-20 blur-[100px]"></div>
       </div>
 
       <div className="space-y-6 text-center max-w-4xl px-4">
-        {/* Pill badge */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -30,7 +29,6 @@ export function HeroSection() {
           </ShinyTag>
         </motion.div>
 
-        {/* Main heading */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -41,7 +39,6 @@ export function HeroSection() {
           Form Axis
         </motion.h1>
 
-        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -49,10 +46,10 @@ export function HeroSection() {
           className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
         >
           Forget boring forms! Just type a prompt, share a link, and watch users
-          chat their way to glory—no clipboards, no pens, just pure conversational magic.
+          chat their way to glory—no clipboards, no pens, just pure
+          conversational magic.
         </motion.p>
 
-        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,7 +69,7 @@ export function HeroSection() {
             className="flex items-center gap-2 rounded-full px-6 py-2 h-12 border-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             aria-label="View on GitHub"
           >
-            <Github className="w-5 h-5" aria-hidden="true" />
+            <SiGithub className="w-5 h-5" aria-hidden="true" />
             <span>Star on GitHub</span>
           </Link>
         </motion.div>
