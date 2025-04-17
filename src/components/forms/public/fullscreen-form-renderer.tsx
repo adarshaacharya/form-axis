@@ -4,7 +4,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FormPreviewChat } from "@/components/forms/playground/form-preview-chat";
 import { Form, FormField } from "@/lib/types";
 import { FormProgressBar } from "./form-progress-bar";
@@ -21,12 +21,17 @@ export default function FullscreenFormRenderer({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState(0);
   const submitResponse = useMutation(api.responses.submitResponse);
+  const startTimeRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    startTimeRef.current = new Date().toISOString();
+  }, []);
 
   const handleFormSubmit = async (answers: Record<string, string>) => {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
-    setProgress(100); // Set to 100% when form is complete
+    setProgress(100);
 
     try {
       const formattedAnswers = Object.entries(answers).map(
@@ -40,6 +45,7 @@ export default function FullscreenFormRenderer({
         formId: form._id,
         answers: formattedAnswers,
         respondentEmail: null,
+        startedAt: startTimeRef.current || new Date().toISOString(),
       });
 
       toast.success("Form submitted successfully");
@@ -57,7 +63,6 @@ export default function FullscreenFormRenderer({
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Fixed progress bar at the top */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <FormProgressBar progress={progress} />
       </div>

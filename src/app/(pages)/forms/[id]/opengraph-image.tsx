@@ -2,11 +2,10 @@ import { ImageResponse } from "next/og";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { readFileSync } from "fs";
 import { join } from "path";
+import { readFile } from "fs/promises";
 
-export const runtime = "nodejs";
-
+export const alt = "Form Axis - AI-Native Conversational Form Builder";
 export const size = {
   width: 1200,
   height: 630,
@@ -63,8 +62,8 @@ export default async function Image({ params }: { params: { id: string } }) {
     "public/_static/fonts/Inter-Bold.ttf"
   );
 
-  const interRegular = readFileSync(interRegularFontPath);
-  const interBold = readFileSync(interBoldFontPath);
+  const interRegular = await readFile(interRegularFontPath);
+  const interBold = await readFile(interBoldFontPath);
 
   try {
     const form = await fetchQuery(api.forms.getPublicForm, { formId });

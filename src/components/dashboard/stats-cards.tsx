@@ -33,31 +33,55 @@ export function StatsCards() {
     responseCount: 0,
     completionRate: 0,
     avgResponseTime: "-",
+    avgResponseTimeMs: 0,
+  };
+
+  // Calculate time difference based on average response time
+  const getTimeDifference = () => {
+    if (!stats.avgResponseTimeMs || stats.avgResponseTimeMs <= 0) {
+      return "Just implemented";
+    }
+
+    // Average traditional form time (estimated at 5 minutes)
+    const traditionalFormTimeMs = 5 * 60 * 1000;
+    const difference = traditionalFormTimeMs - stats.avgResponseTimeMs;
+
+    if (difference > 0) {
+      const percentFaster = Math.round(
+        (difference / traditionalFormTimeMs) * 100
+      );
+      return `${percentFaster}% faster than traditional forms`;
+    } else {
+      return "Comparable to standard forms";
+    }
   };
 
   const cards = [
     {
       title: "Total Forms",
       value: stats.formCount,
-      subtitle: `+${stats.formCount} from last month`,
+      subtitle: `${stats.formCount > 0 ? "+" + stats.formCount : "0"} from last month`,
       icon: <FileText className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Total Responses",
       value: stats.responseCount,
-      subtitle: `+100% increase`,
+      subtitle:
+        stats.responseCount > 0
+          ? `Across ${stats.formCount} forms`
+          : "No responses yet",
       icon: <MessageSquare className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Completion Rate",
-      value: `100%`,
-      subtitle: `+80% from traditional forms`,
+      value: `${stats.completionRate}%`,
+      subtitle: `Based on submitted responses`,
       icon: <Activity className="h-4 w-4 text-muted-foreground" />,
     },
     {
       title: "Avg. Response Time",
       value: stats.avgResponseTime,
-      subtitle: `0% vs standard forms`,
+      subtitle: getTimeDifference(),
       icon: <TrendingUp className="h-4 w-4 text-muted-foreground" />,
     },
   ];

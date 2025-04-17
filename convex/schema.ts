@@ -7,7 +7,7 @@ export const fieldTypeSchema = v.union(
   v.literal("number"),
   v.literal("email"),
   v.literal("phone"),
-  v.literal("calendar"),
+  v.literal("calendar")
 );
 
 export type FieldType = Infer<typeof fieldTypeSchema>;
@@ -65,8 +65,9 @@ export default defineSchema({
   responses: defineTable({
     formId: v.id("forms"),
     userId: v.optional(v.union(v.string(), v.id("users"), v.null())),
+    startedAt: v.optional(v.string()),
     submittedAt: v.string(),
-    // can be null as well
+    responseTimeMs: v.optional(v.number()),
     respondentEmail: v.optional(v.union(v.string(), v.null())),
     answers: v.array(
       v.object({

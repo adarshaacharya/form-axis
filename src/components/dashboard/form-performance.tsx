@@ -14,17 +14,17 @@ export function FormPerformance() {
   const topForms = [
     {
       name: "Customer Feedback",
-      value: 92,
+      value: 0,
       icon: <Star className="h-4 w-4 text-primary" />,
     },
     {
       name: "Product Survey",
-      value: 78,
+      value: 0,
       icon: <TrendingUp className="h-4 w-4 text-primary" />,
     },
     {
       name: "Job Application",
-      value: 65,
+      value: 0,
       icon: <Users className="h-4 w-4 text-primary" />,
     },
   ];

@@ -36,6 +36,7 @@ export default function FormRenderer({ form, formFields }: FormRendererProps) {
         formId: form._id,
         answers: formattedAnswers,
         respondentEmail: null, // Could be collected if needed
+        startedAt: new Date().toISOString(),
       });
 
       toast.success("Form submitted successfully");
