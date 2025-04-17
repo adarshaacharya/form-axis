@@ -2,8 +2,7 @@ import { ImageResponse } from "next/og";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { join } from "path";
-import { readFile } from "fs/promises";
+export const runtime = "edge";
 
 export const alt = "Form Axis - AI-Native Conversational Form Builder";
 export const size = {
@@ -53,17 +52,21 @@ function TripleDots() {
 export default async function Image({ params }: { params: { id: string } }) {
   const formId = params.id as Id<"forms">;
 
-  const interRegularFontPath = join(
-    process.cwd(),
-    "public/_static/fonts/Inter-Regular.ttf"
-  );
-  const interBoldFontPath = join(
-    process.cwd(),
-    "public/_static/fonts/Inter-Bold.ttf"
-  );
+  // can't use REGULAR 😭 cuz limit is 1MB for serverless function in hobby project
+  // Vercel sponsor me  😭😭😭😭
+  //   const interRegular = await fetch(
+  //     new URL(
+  //       "../../../../../public/_static/fonts/Inter-Regular.ttf",
+  //       import.meta.url
+  //     )
+  //   ).then((res) => res.arrayBuffer());
 
-  const interRegular = await readFile(interRegularFontPath);
-  const interBold = await readFile(interBoldFontPath);
+  const interBold = await fetch(
+    new URL(
+      "../../../../../public/_static/fonts/Inter-Bold.ttf",
+      import.meta.url
+    )
+  ).then((res) => res.arrayBuffer());
 
   try {
     const form = await fetchQuery(api.forms.getPublicForm, { formId });
@@ -126,7 +129,7 @@ export default async function Image({ params }: { params: { id: string } }) {
           fonts: [
             {
               name: "Inter",
-              data: interRegular,
+              data: interBold,
               style: "normal",
               weight: 400,
             },
@@ -202,7 +205,7 @@ export default async function Image({ params }: { params: { id: string } }) {
         fonts: [
           {
             name: "Inter",
-            data: interRegular,
+            data: interBold,
             style: "normal",
             weight: 400,
           },
@@ -255,6 +258,7 @@ export default async function Image({ params }: { params: { id: string } }) {
               textAlign: "center",
               maxWidth: "75%",
               marginBottom: 60,
+              fontWeight: 400,
             }}
           >
             AI-Native Conversational Form Builder
@@ -268,7 +272,7 @@ export default async function Image({ params }: { params: { id: string } }) {
         fonts: [
           {
             name: "Inter",
-            data: interRegular,
+            data: interBold,
             style: "normal",
             weight: 400,
           },
