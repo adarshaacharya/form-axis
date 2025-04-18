@@ -114,15 +114,23 @@ export const getForm = query({
 
 // For public form access specifically (no auth check)
 export const getPublicForm = query({
-  args: { formId: v.id("forms") },
+  args: {
+    formId: v.id("forms"),
+    preview: v.optional(v.boolean()),
+  },
   handler: async (ctx, args) => {
     const form = await ctx.db.get(args.formId);
 
-    if (!form || form.status !== "published") {
+    if (!form) {
       return null;
     }
 
-    return form;
+    // Allow viewing the form if it's published or if preview mode is enabled
+    if (form.status === "published" || args.preview) {
+      return form;
+    }
+
+    return null;
   },
 });
 

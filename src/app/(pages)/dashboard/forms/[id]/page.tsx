@@ -68,6 +68,10 @@ export default function FormPage() {
 
   const isPublished = form.status === "published";
 
+  const openPreviewMode = () => {
+    window.open(`/forms/${formId}/preview`, "_blank");
+  };
+
   return (
     <div className="py-8 px-4 space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
@@ -95,7 +99,8 @@ export default function FormPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`/forms/${formId}`, "_blank")}
+            onClick={openPreviewMode}
+            className="text-orange-500 hover:text-orange-600"
           >
             <Eye className="h-4 w-4 mr-2" />
             Preview

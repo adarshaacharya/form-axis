@@ -30,14 +30,14 @@ export function FormPreviewPanel({ form, formFields }: FormPreviewPanelProps) {
           <CardDescription>
             See how your form will appear to respondents. Enter{" "}
             <Link
-              href={process.env.NEXT_PUBLIC_APP_URL + "/forms/" + form._id}
+              href={`${process.env.NEXT_PUBLIC_APP_URL}/forms/${form._id}/preview`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
+              className="text-orange-500 hover:underline"
             >
-              live mode
+              full-screen preview mode
             </Link>{" "}
-            for a better experience.
+            for a better experience. Responses are not saved in preview mode.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0 flex-1 overflow-hidden">

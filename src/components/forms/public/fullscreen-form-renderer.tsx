@@ -12,11 +12,13 @@ import { FormProgressBar } from "./form-progress-bar";
 interface FullscreenFormRendererProps {
   form: Form;
   formFields: FormField[];
+  isPreview?: boolean;
 }
 
 export default function FullscreenFormRenderer({
   form,
   formFields,
+  isPreview = false,
 }: FullscreenFormRendererProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -24,8 +26,10 @@ export default function FullscreenFormRenderer({
   const startTimeRef = useRef<string | null>(null);
 
   useEffect(() => {
-    startTimeRef.current = new Date().toISOString();
-  }, []);
+    if (!isPreview) {
+      startTimeRef.current = new Date().toISOString();
+    }
+  }, [isPreview]);
 
   const handleFormSubmit = async (answers: Record<string, string>) => {
     if (isSubmitting) return;
@@ -34,6 +38,13 @@ export default function FullscreenFormRenderer({
     setProgress(100);
 
     try {
+      if (isPreview) {
+        toast.success(
+          "Preview mode: Form submission simulated. No data saved."
+        );
+        return;
+      }
+
       const formattedAnswers = Object.entries(answers).map(
         ([fieldId, value]) => ({
           fieldId: fieldId as Id<"formFields">,

@@ -63,7 +63,7 @@ export default async function Image({ params }: { params: { id: string } }) {
 
   const interBold = await fetch(
     new URL(
-      "../../../../../public/_static/fonts/Inter-Bold.ttf",
+      "../../../../../../public/_static/fonts/Inter-Bold.ttf",
       import.meta.url
     )
   ).then((res) => res.arrayBuffer());

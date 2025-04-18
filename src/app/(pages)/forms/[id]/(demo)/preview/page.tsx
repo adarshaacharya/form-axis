@@ -5,7 +5,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import FullscreenFormRenderer from "@/components/forms/public/fullscreen-form-renderer";
 import { BlankPage } from "@/components/fallbacks/blank-page";
 
-interface FormPageProps {
+interface FormPreviewPageProps {
   params: Promise<{
     id: string;
   }>;
@@ -13,10 +13,11 @@ interface FormPageProps {
 
 export async function generateMetadata({
   params,
-}: FormPageProps): Promise<Metadata> {
+}: FormPreviewPageProps): Promise<Metadata> {
   try {
     const form = await fetchQuery(api.forms.getPublicForm, {
       formId: (await params).id as Id<"forms">,
+      preview: true,
     });
 
     if (!form) {
@@ -26,23 +27,28 @@ export async function generateMetadata({
     }
 
     return {
-      title: `${form.title} | Form Axis`,
-      description: form.description || "Complete this form",
+      title: `Preview: ${form.title} | Form Axis`,
+      description: `Preview mode for ${form.title}`,
     };
   } catch (error) {
     console.error("Error generating metadata:", error);
     return {
-      title: "Form Axis",
-      description: "Complete this form",
+      title: "Form Preview | Form Axis",
+      description: "Preview this form",
     };
   }
 }
 
-export default async function FormPage({ params }: FormPageProps) {
+export default async function FormPreviewPage({
+  params,
+}: FormPreviewPageProps) {
   const formId = (await params).id as Id<"forms">;
 
   try {
-    const form = await fetchQuery(api.forms.getPublicForm, { formId });
+    const form = await fetchQuery(api.forms.getPublicForm, {
+      formId,
+      preview: true,
+    });
 
     if (!form) {
       return (
@@ -58,7 +64,13 @@ export default async function FormPage({ params }: FormPageProps) {
       formId,
     });
 
-    return <FullscreenFormRenderer form={form} formFields={formFields} />;
+    return (
+      <FullscreenFormRenderer
+        form={form}
+        formFields={formFields}
+        isPreview={true}
+      />
+    );
   } catch (error) {
     console.error("Error loading form:", error);
     return (
