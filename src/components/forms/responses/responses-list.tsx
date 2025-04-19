@@ -5,9 +5,17 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
-import { InboxIcon, BarChart, MessageSquare, TrendingUp } from "lucide-react";
+import {
+  InboxIcon,
+  BarChart,
+  MessageSquare,
+  TrendingUp,
+  DownloadIcon,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { downloadResponsesXlsx } from "@/lib/xlsx-utils";
+import { Button } from "@/components/ui/button";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,9 +29,17 @@ interface ResponsesListProps {
 export function ResponsesList({ formId }: ResponsesListProps) {
   const responses = useQuery(api.responses.getFormResponses, { formId });
   const analytics = useQuery(api.responses.getFormAnalytics, { formId });
+  const fields = useQuery(api.formFields.getFormFields, { formId });
   const [selectedResponseId, setSelectedResponseId] =
     useState<Id<"responses"> | null>(null);
   const isLoading = responses === undefined || analytics === undefined;
+
+  // Handler to download XLSX of all responses
+  const handleDownload = () => {
+    if (responses && fields) {
+      downloadResponsesXlsx(formId, responses, fields);
+    }
+  };
 
   // Container with consistent height
   const minHeight = "min-h-[600px]";
@@ -71,6 +87,20 @@ export function ResponsesList({ formId }: ResponsesListProps) {
 
   return (
     <div className={`space-y-6 ${minHeight}`}>
+      <div className="flex justify-end">
+        <Button
+          size="sm"
+          onClick={handleDownload}
+          variant="outline"
+          disabled={responses.length === 0}
+          className="hover:text-primary"
+          aria-label="Download responses as XLSX"
+        >
+          <DownloadIcon className="mr-2 h-4 w-4" />
+          Download XLSX
+        </Button>
+      </div>
+
       {/* Analytics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card>
@@ -119,7 +149,7 @@ export function ResponsesList({ formId }: ResponsesListProps) {
       <div className={`grid grid-cols-1 md:grid-cols-5 gap-6`}>
         {/* Responses list - smaller left pane (20% width) */}
         <div className="md:col-span-1 border rounded-lg overflow-hidden flex flex-col">
-          <div className="p-3 border-b bg-muted/40">
+          <div className="p-3 border-b bg-muted/40 flex items-center justify-between">
             <h3 className="font-medium text-sm flex items-center justify-between">
               <span>Responses</span>
               <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs">
