@@ -24,7 +24,7 @@ export async function generateFormQuestions(
     });
 
     const result = await generateObject({
-      model: google("gemini-1.5-pro-latest", {
+      model: google("gemini-2.0-flash-lite-preview-02-05", {
         safetySettings: [
           {
             category: "HARM_CATEGORY_HARASSMENT",
