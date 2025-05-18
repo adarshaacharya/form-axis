@@ -14,6 +14,12 @@
 AI-native Forms that are purely conversational. You set up the form or survey by just writing down a bunch of prompts. It gives you a link you can share for people to “fill out the form.” But it’s just a chat UI.
 </p>
 
+## Video Demo
+
+_Click the image below to watch a YouTube demo of Form Axis in action:_
+
+[![YOUTUBE DEMO](https://img.youtube.com/vi/Dm7sM2BG-Rw/0.jpg)](https://www.youtube.com/watch?v=Dm7sM2BG-Rw)
+
 ## Stack
 
 - Next.js app router
@@ -59,6 +65,8 @@ Please refer to the [Convex with clerk](https://docs.convex.dev/auth/clerk) and 
 ```bash
 npx convex dev
 ```
+
+Access convex dashboard at : [http://127.0.0.1:6790/?d=anonymous-form-pilot](http://127.0.0.1:6790/?d=anonymous-form-pilot)
 
 5. In another terminal, run the Next.js development server
 

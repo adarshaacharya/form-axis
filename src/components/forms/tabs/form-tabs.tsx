@@ -14,6 +14,21 @@ interface FormTabsProps {
   formId: Id<"forms">;
 }
 
+const FORM_TABS = [
+  {
+    label: "Form Fields",
+    value: "fields",
+  },
+  {
+    label: "Form Settings",
+    value: "settings",
+  },
+  {
+    label: "Responses",
+    value: "responses",
+  },
+];
+
 export function FormTabs({ form, formFields, formId }: FormTabsProps) {
   const [activeTab, setActiveTab] = useState<
     "fields" | "settings" | "responses"
@@ -32,9 +47,15 @@ export function FormTabs({ form, formFields, formId }: FormTabsProps) {
         className="w-full"
       >
         <TabsList className="grid grid-cols-3 w-full">
-          <TabsTrigger value="fields">Form Fields</TabsTrigger>
-          <TabsTrigger value="settings">Form Settings</TabsTrigger>
-          <TabsTrigger value="responses">Responses</TabsTrigger>
+          {FORM_TABS.map((tab) => (
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              className="text-sm font-medium"
+            >
+              {tab.label}
+            </TabsTrigger>
+          ))}
         </TabsList>
 
         <div className="mt-6">

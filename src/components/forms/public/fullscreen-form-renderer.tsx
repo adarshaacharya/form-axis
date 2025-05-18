@@ -15,6 +15,8 @@ interface FullscreenFormRendererProps {
   isPreview?: boolean;
 }
 
+console.log("full screen form renderer");
+
 export default function FullscreenFormRenderer({
   form,
   formFields,
@@ -39,6 +41,7 @@ export default function FullscreenFormRenderer({
 
     try {
       if (isPreview) {
+    
         toast.success(
           "Preview mode: Form submission simulated. No data saved."
         );

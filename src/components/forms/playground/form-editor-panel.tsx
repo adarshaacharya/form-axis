@@ -34,7 +34,6 @@ export function FormEditorPanel({
   const createFormField = useMutation(api.formFields.createFormField);
   const deleteFormField = useMutation(api.formFields.deleteFormField);
 
-  // Handle form settings update
   const handleUpdateSettings = async (
     settings: Pick<Form, "title" | "description" | "status" | "settings">
   ) => {

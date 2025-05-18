@@ -60,6 +60,14 @@ export function FormCompletion({
             <Button onClick={onViewAnswers} variant="default" className="px-6">
               Return to Home
             </Button>
+
+            <Button
+              variant="outline"
+              className="ml-4 px-6"
+              onClick={() => window.location.reload()}
+            >
+              Refill Form
+            </Button>
           </CardFooter>
         </Card>
       </motion.div>

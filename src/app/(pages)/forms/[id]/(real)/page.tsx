@@ -64,7 +64,7 @@ export default async function FormPage({ params }: FormPageProps) {
       <FullscreenFormRenderer
         form={form}
         formFields={formFields}
-        isPreview={true}
+        isPreview={false}
       />
     );
   } catch (error) {

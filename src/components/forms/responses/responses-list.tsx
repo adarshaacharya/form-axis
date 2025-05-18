@@ -34,7 +34,6 @@ export function ResponsesList({ formId }: ResponsesListProps) {
     useState<Id<"responses"> | null>(null);
   const isLoading = responses === undefined || analytics === undefined;
 
-  // Handler to download XLSX of all responses
   const handleDownload = () => {
     if (responses && fields) {
       downloadResponsesXlsx(formId, responses, fields);
